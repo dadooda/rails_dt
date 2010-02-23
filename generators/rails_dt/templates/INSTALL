@@ -6,7 +6,7 @@ In your `app/controllers/application_controller` add:
 
     handles_dt
 
-In your `app/view/layouts/application.html.erb` `<head>` section add:
+In your `app/views/layouts/application.html.erb` `<head>` section add:
 
     <%= stylesheet_link_tag "dt" %>
 
