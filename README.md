@@ -41,43 +41,37 @@ Debugging...
 
 ### ...models ###
 
-~~~
-def before_save
-  DT.p "in before_save"
-end
-~~~
+    def before_save
+      DT.p "in before_save"
+    end
 
 ### ...controllers ###
 
-~~~
-def action
-  DT.p "hi, I'm #{action_name}"
-end
-~~~
+    def action
+      DT.p "hi, I'm #{action_name}"
+    end
 
 ### ...views ###
 
-~~~
-<div class="body">
-  <% DT.p "@users", @users %>
-</div>
-~~~
+    <div class="body">
+      <% DT.p "@users", @users %>
+    </div>
 
 ### ...filters ###
 
-~~~
-$ tail -f log/dt.log
-~~~
+Insert debugging code:
 
-~~~
-before_filter do
-  DT.p "in before_filter xyz"
-end
+    before_filter do
+      DT.p "in before_filter xyz"
+    end
 
-after_filter do
-  DT.p "in after_filter xyz"
-end
-~~~
+    after_filter do
+      DT.p "in after_filter xyz"
+    end
+
+See it in action:
+
+    $ tail -f log/dt.log
 
 
 Feedback
