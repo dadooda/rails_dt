@@ -15,21 +15,21 @@ Setup
     $ gem sources --add http://gemcutter.org
     $ gem install rails_dt
 
-In your application root:
+In your application root, do a:
 
     $ script/generate rails_dt
 
 Follow the instructions the generator gives you (they are listed below):
 
-In your `app/controllers/application_controller` add:
+In your `app/controllers/application_controller`, add:
 
     handles_dt
 
-In your `app/view/layouts/application.html.erb` `<head>` section add:
+In your `app/view/layouts/application.html.erb` `<head>` section, add:
 
     <%= stylesheet_link_tag "dt" %>
 
-Somewhere at the end of your `app/views/layouts/application.html.erb` `<body>` section add:
+Somewhere at the end of your `app/views/layouts/application.html.erb` `<body>` section, add:
 
     <div class="DT">
       <%= DT.to_html %>
