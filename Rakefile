@@ -14,6 +14,7 @@ begin
     gem.files = FileList[
       "[A-Z]*.*",
       "*.gemspec",
+      "generators/**/*",
       "lib/**/*.rb",
       "init.rb",
     ]

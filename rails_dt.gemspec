@@ -18,6 +18,10 @@ Gem::Specification.new do |s|
   s.files = [
     "README.md",
      "VERSION.yml",
+     "generators/rails_dt/rails_dt_generator.rb",
+     "generators/rails_dt/templates/INSTALL",
+     "generators/rails_dt/templates/initializers/dt.rb",
+     "generators/rails_dt/templates/stylesheets/dt.css",
      "init.rb",
      "lib/dt.rb",
      "lib/dt/action_controller_extensions.rb",
