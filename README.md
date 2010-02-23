@@ -12,7 +12,7 @@ It's similar to Ruby's native `p()` with output being sent to browser, console a
 Setup
 -----
 
-    $ gem sources --add http://gemcutter.org
+    $ gem sources --add http://rubygems.org
     $ gem install rails_dt
 
 In your application root, do a:
