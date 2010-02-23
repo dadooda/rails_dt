@@ -19,7 +19,7 @@ In your application root:
 
     $ script/generate rails_dt
 
-Follow the instructions the generator gives you.
+Follow the instructions the generator gives you (they are listed below):
 
 In your `app/controllers/application_controller` add:
 
