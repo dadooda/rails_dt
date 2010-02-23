@@ -1,0 +1,20 @@
+
+Finalizing DT installation
+==========================
+
+In your `app/controllers/application_controller` add:
+
+    handles_dt
+
+In your `app/view/layouts/application.html.erb` `<head>` section add:
+
+    <%= stylesheet_link_tag "dt" %>
+
+Somewhere at the end of your `app/views/layouts/application.html.erb` `<body>` section add:
+
+    <div class="DT">
+      <%= DT.to_html %>
+    </div>
+
+Happy debugging!
+

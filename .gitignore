@@ -1,0 +1,14 @@
+.old*/
+*-old*
+*-old*/
+/*.patch
+.proto-*
+.proto-*/
+*.rbx
+.ref*
+.ref*/
+/#*.txt
+
+/a.rb
+doc/
+pkg/
