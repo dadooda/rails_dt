@@ -5,15 +5,20 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_dt}
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Fortuna"]
   s.date = %q{2010-02-23}
   s.description = %q{Rails Debug Toolkit}
   s.email = %q{alex.r@askit.org}
+  s.extra_rdoc_files = [
+    "README.md"
+  ]
   s.files = [
-    "init.rb",
+    "README.md",
+     "VERSION.yml",
+     "init.rb",
      "lib/dt.rb",
      "lib/dt/action_controller_extensions.rb",
      "lib/rails_dt.rb",
