@@ -35,14 +35,15 @@ module DT   #:doc:
   #   p @myobj
   def self.p(*args)
     # Fetch caller information.
-    c = caller.first.split(":")
+    # NOTE: May be lacking file information, e.g. when in an irb session.
+    file, line = caller.first.split(":")
 
     # Template variables. Documented in web_prefix=.
     hc = {
-      :file => c[0],
-      :line => c[1],
-      :file_base => File.basename(c[0]),
-      :file_rel => Pathname(c[0]).relative_path_from(Rails.root).to_s,
+      :file => file,
+      :line => line,
+      :file_base => (begin; File.basename(file); rescue; file; end),
+      :file_rel => (begin; Pathname(file).relative_path_from(Rails.root).to_s; rescue; file; end),
     }
 
     ##return hc

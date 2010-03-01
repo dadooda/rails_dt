@@ -2,19 +2,22 @@
 Finalizing DT installation
 ==========================
 
-In your `app/controllers/application_controller` add:
+In your `config/environment.rb`, add:
+
+    config.gem "rails_dt"
+
+Inside your `ApplicationController` class, add:
 
     handles_dt
 
-In your `app/views/layouts/application.html.erb` `<head>` section add:
+In your `app/views/layouts/application.html.erb` `<head>` section, add:
 
     <%= stylesheet_link_tag "dt" %>
 
-Somewhere at the end of your `app/views/layouts/application.html.erb` `<body>` section add:
+Somewhere at the end of your `app/views/layouts/application.html.erb` `<body>` section, add:
 
     <div class="DT">
       <%= DT.to_html %>
     </div>
 
 Happy debugging!
-

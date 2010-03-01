@@ -21,7 +21,11 @@ In your application root, do a:
 
 Follow the instructions the generator gives you (they are listed below):
 
-In your `app/controllers/application_controller`, add:
+In your `config/environment.rb`, add:
+
+    config.gem "rails_dt"
+
+Inside your `ApplicationController` class, add:
 
     handles_dt
 
@@ -36,28 +40,38 @@ Somewhere at the end of your `app/views/layouts/application.html.erb` `<body>` s
     </div>
 
 
+Checking Setup
+--------------
+
+Somewhere in your `app/views/layouts/application.html.erb`, add:
+
+    <% DT.p "hello, world" %>
+
+Refresh a page that uses this layout. You should see "hello, world" beneath your main page content.
+
+
 Debugging...
 ------------
 
-### ...models ###
+### ...Models ###
 
     def before_save
       DT.p "in before_save"
     end
 
-### ...controllers ###
+### ...Controllers ###
 
     def action
       DT.p "hi, I'm #{action_name}"
     end
 
-### ...views ###
+### ...Views ###
 
     <div class="body">
       <% DT.p "@users", @users %>
     </div>
 
-### ...filters ###
+### ...Filters ###
 
 Insert debugging code:
 
@@ -72,6 +86,11 @@ Insert debugging code:
 See it in action:
 
     $ tail -f log/dt.log
+
+### ...Anything! ###
+
+To conclude it, `DT.p` is the universal method you can print your debug messages with.
+
 
 
 Feedback
