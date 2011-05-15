@@ -10,5 +10,5 @@
 /#*.txt
 
 /a.rb
-doc/
-pkg/
+/doc/
+/pkg/

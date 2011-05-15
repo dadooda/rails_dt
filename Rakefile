@@ -27,7 +27,7 @@ desc "Rebuild gemspec and package"
 task :rebuild => [:gemspec, :build]
 
 desc "Push (publish) gem to RubyGems (aka Gemcutter)"
-task :push do
+task :push => :rebuild do
   # Yet found no way to ask Jeweler forge a complete version string for us.
   vh = YAML.load(File.read("VERSION.yml"))
   version = [vh[:major], vh[:minor], vh[:patch]].join(".")
