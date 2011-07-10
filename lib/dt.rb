@@ -5,40 +5,139 @@ Dir[File.join(File.dirname(__FILE__), "dt/**/*.rb")].each {|fn| require fn}
 
 # Debug toolkit.
 #
-# Allows to output debug messages from anywhere in your Rails project.
+# Allows to print debug messages from anywhere in your Rails project. Do a:
 #
-# Configure your application:
-#   $ script/generate rails_dt
-#
-# Follow the instructions the generator gives you.
-#
-# Then anywhere in your application do a:
 #   DT.p "Hello, world!"
-#   DT.p "myvar", myvar
 #
-# , and see it in web output, console, and <tt>log/dt.log</tt>.
+# , and see the message in log, <tt>log/dt.log</tt>, console and web.
+#
+# To set up web output, in your application root do a:
+#
+#   $ rails generate rails_dt     # Rails 3
+#   $ script/generate rails_dt    # Rails 2
+#
+# Follow the instructions the generator gives you then.
 module DT   #:doc:
-  # NOTE: Alphabetical order in this section.
+  # Maximum number of stored messages, if they're not cleared.
+  # If web output is configured, messages are cleared before every request.
+  MAX_WEB_MESSAGES = 100
 
-  # Clear messages.
-  def self.clear
-    @messages = []
+  # Initializer.
+  def self._initialize    #:nodoc:
+    clear_web_messages
+
+    # NOTES:
+    # * Stuffing is inserted in order to work around buggy RDoc parser.
+    #   "a""bc" => "abc", just in case.
+    # * Don't forget to update generator/initializers/dt.rb with these.
+    # * "Canonical" order of imporance: log, console, web.
+    @log_prefix = "[DT <""%= file_rel %>:<""%= line %>] "
+    @console_prefix = @log_prefix.dup
+    @web_prefix = '<a href="txmt://open?url=file://<''%= file %>&line=<''%= line %>"><''%= file_rel %>:<''%= line %></a> '
+
+    # In case of path problems @log will be nil.
+    @log = Logger.new(Rails.root + "log/dt.log") rescue nil
+  end
+
+  # On-the-fly initializer.
+  def self._otf_init    #:nodoc:
+    # Consider job done, replace self with a blank.
+    class_eval {
+      def self._otf_init    #:nodoc:
+      end
+    }
+
+    _initialize
+  end
+
+  # Set message prefix for console. See <tt>log_prefix=</tt>.
+  def self.console_prefix=(s)
+    _otf_init
+    @console_prefix = s
+  end
+
+  def self.console_prefix
+    _otf_init
+    @console_prefix
+  end
+
+  # Set logger to use. Must be a <tt>Logger</tt>.
+  #
+  #   log = Logger.new("log/my.log")
+  def self.log=(obj)
+    _otf_init
+    raise "Logger expected, #{obj.class} given" if not obj.is_a? Logger
+    @log = obj
+  end
+
+  def self.log
+    _otf_init
+    @log
+  end
+
+  # Set message prefix for log. Syntax is ERB.
+  #
+  #   log_prefix = "[DT <""%= file_rel %>:<""%= line %>] "
+  #
+  # NOTE: In the above example some stuffing was made to satisfy the buggy RDoc parser.
+  # Just in case, <tt>"a""bc"</tt> is <tt>"abc"</tt> in Ruby.
+  #
+  # Template variables:
+  #
+  # * <tt>file</tt> -- full path to file.
+  # * <tt>file_base</tt> -- file base name.
+  # * <tt>file_rel</tt> -- file name relative to Rails application root.
+  # * <tt>line</tt> -- line number.
+  #
+  # By setting prefix to <tt>nil</tt> you disable respective output.
+  #
+  #   web_prefix = nil      # Disable web output.
+  def self.log_prefix=(s)
+    _otf_init
+    @log_prefix = s
+  end
+
+  def self.log_prefix
+    _otf_init
+    @log_prefix
   end
 
   # Return messages accumulated since last cleared.
-  def self.messages
-    @messages
+  def self.web_messages
+    _otf_init
+    @web_messages
   end
 
-  # Dump a value or several values. Similar to Ruby's native <tt>p</tt>.
-  #   p "my var: " + myvar.inspect
-  #   p @myobj
+  # Set message prefix for web. See <tt>log_prefix=</tt>.
+  def self.web_prefix=(s)
+    _otf_init
+    @web_prefix = s
+  end
+
+  def self.web_prefix
+    _otf_init
+    @web_prefix
+  end
+
+  #---------------------------------------
+
+  # Clear messages.
+  def self.clear_web_messages
+    _otf_init
+    @web_messages = []
+  end
+
+  # Print a debug message or dump a value. Somewhat similar to Ruby's native <tt>p</tt>.
+  #
+  #   p "Hello, world!"
+  #   p "myvar", myvar
   def self.p(*args)
+    _otf_init
     # Fetch caller information.
     # NOTE: May be lacking file information, e.g. when in an irb session.
     file, line = caller.first.split(":")
 
-    # Template variables. Documented in web_prefix=.
+    # Assign template variables.
     hc = {
       :file => file,
       :line => line,
@@ -46,102 +145,62 @@ module DT   #:doc:
       :file_rel => (begin; Pathname(file).relative_path_from(Rails.root).to_s; rescue; file; end),
     }
 
-    ##return hc
-
     args.each do |r|
       s = r.is_a?(String) ? r : r.inspect
 
-      # NOTE: "Canonical" order of imporance: web, console, log.
+      # To log.
+      if @log_prefix
+        ##Kernel.p "@log", @log   #DEBUG
+        if @log
+          pfx = ERB.new(@log_prefix, nil, "-").result(_hash_kbinding(hc))
+          msg = [pfx, s].join
+          @log.info msg
+          Rails.logger.info msg rescue nil    # In case something's wrong with `Rails.logger`.
+        end
+      end
 
-      # To Web.
-      if self.web_prefix
-        pfx = ERB.new(self.web_prefix, nil, "-").result(_hash_kbinding(hc))
+      # To console.
+      if @console_prefix
+        pfx = ERB.new(@console_prefix, nil, "-").result(_hash_kbinding(hc))
+        puts [pfx, s].join
+      end
+
+      # To web.
+      if @web_prefix
+        pfx = ERB.new(@web_prefix, nil, "-").result(_hash_kbinding(hc))
 
         pcs = []
         pcs << pfx
         pcs << CGI.escapeHTML(s).gsub("\n", "<br/>\n")
-        pcs << "<br/>\n"
-        @messages << pcs.join
-      end
+        @web_messages << pcs.join
 
-      # To console.
-      if self.console_prefix
-        pfx = ERB.new(self.console_prefix, nil, "-").result(_hash_kbinding(hc))
-        puts [pfx, s].join
-      end
-
-      # To log.
-      if self.log_prefix and @log
-        pfx = ERB.new(self.log_prefix, nil, "-").result(_hash_kbinding(hc))
-        @log.info [pfx, s].join
+        # Rotate messages.
+        @web_messages.slice!(0..-(MAX_WEB_MESSAGES + 1))
       end
     end
 
-    # Be like puts -- more comfy when debugging in console.
+    # Be like `puts`, return nil.
     nil
   end
 
-  # Format accumulated messages as HTML.
-  #   to_html      # => Something like "<ul><li>A message!</li></ul>".
-  def self.to_html
+  # Format accumulated web messages as HTML. Usually called from a view template.
+  #
+  #   web_messages_as_html    # => Something like "<ul><li>Message 1</li><li>Message 2</li>...</ul>".
+  def self.web_messages_as_html
+    _otf_init
+
     pcs = []
     pcs << "<ul>"
-    @messages.each do |s|
+    @web_messages.each do |s|
       pcs << ["<li>", s, "</li>"].join
     end
     pcs << "</ul>"
 
-    pcs.join
-  end
-
-  #--------------------------------------- Control stuff
-
-  # Set message prefix for console. See <tt>web_prefix=</tt>.
-  def self.console_prefix=(s)
-    @console_prefix = s
-  end
-
-  def self.console_prefix
-    @console_prefix
-  end
-
-  # Set logger to use. Must be a <tt>Logger</tt>.
-  #   log = Logger.new("log/my.log")
-  def self.log=(obj)
-    raise "Logger expected, #{obj.class} given" if not obj.is_a? Logger
-    @log = obj
-  end
-
-  def self.log
-    @log
-  end
-
-  # Set message prefix for log. See <tt>web_prefix=</tt>.
-  def self.log_prefix=(s)
-    @log_prefix = s
-  end
-
-  def self.log_prefix
-    @log_prefix
-  end
-
-  # Set message prefix for web. Syntax is ERB.
-  #   web_prefix = '<a href="txmt://open?url=file://<%= file %>&line=<%= line %>"><%= file_rel %>:<%= line %></a> '
-  #
-  # Template variables:
-  # * <tt>file</tt> -- full path to file
-  # * <tt>line</tt> -- line number
-  # * <tt>file_base</tt> -- file base name
-  # * <tt>file_rel</tt> -- file name relative to Rails application root
-  #
-  # By setting prefix to <tt>nil</tt> you disable respective output.
-  #   web_prefix = nil      # Web output is disabled now.
-  def self.web_prefix=(s)
-    @web_prefix = s
-  end
-
-  def self.web_prefix
-    @web_prefix
+    if (out = pcs.join).respond_to? :html_safe
+      out.html_safe
+    else
+      out
+    end
   end
 
   #---------------------------------------
@@ -155,36 +214,14 @@ module DT   #:doc:
     bnd = binding
 
     _value = nil
-    h.each do |k, _value|
-      ##puts "-- k-#{k.inspect} v-#{_value.inspect}"
+    h.each do |k, v|
+      ##puts "-- k-#{k.inspect} v-#{_value.inspect}"    #DEBUG
+      _value = v      # IMPORTANT: Ruby 1.9 compatibility hack.
       eval("#{k} = _value", bnd)
     end
 
     bnd
   end
 
-  #--------------------------------------- Initialization
-
-  def self._init    #:nodoc:
-    # Require Rails environment.
-    if not defined? Rails
-      raise "Rails environment not found. This module is meaningful in Rails only"
-    end
-
-    clear
-
-    # NOTE: Don't forget to update generator/initializers/dt.rb with these.
-    self.web_prefix = '<a href="txmt://open?url=file://<%= file %>&line=<%= line %>"><%= file_rel %>:<%= line %></a> '
-    self.console_prefix = "[DT <%= file_rel %>:<%= line %>] "
-    self.log_prefix = self.console_prefix
-
-    # In case of path problems @log will be nil.
-    @log = begin
-      Logger.new("log/dt.log")
-    rescue Exception
-    end
-  end
-
-  _init
-
+  # DO NOT invoke `_initialize` load-time, it won't see Rails3 stuff.
 end # DT

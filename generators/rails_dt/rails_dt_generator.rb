@@ -1,5 +1,4 @@
-#class SessionGenerator < Rails::Generator::NamedBase   # <-- was
-class RailsDtGenerator < Rails::Generator::Base
+class RailsDtGenerator < Rails::Generator::Base   #:nodoc:
   def manifest
     record do |m|
       m.file "stylesheets/dt.css", "public/stylesheets/dt.css"
