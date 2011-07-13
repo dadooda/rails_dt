@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_dt}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Fortuna"]
-  s.date = %q{2011-07-10}
+  s.date = %q{2011-07-13}
   s.description = %q{Rails Debug Toolkit}
   s.email = %q{alex.r@askit.org}
   s.extra_rdoc_files = [
@@ -17,8 +17,10 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
+    "MIT-LICENSE",
     "README.html",
     "README.md",
+    "Rakefile",
     "VERSION.yml",
     "generators/rails_dt/USAGE",
     "generators/rails_dt/WARNING",

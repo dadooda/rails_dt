@@ -1,8 +1,8 @@
 class RailsDtGenerator < Rails::Generator::Base   #:nodoc:
   def manifest
     record do |m|
-      m.file "stylesheets/dt.css", "public/stylesheets/dt.css"
-      m.file "initializers/dt.rb", "config/initializers/dt.rb"
+      m.file (fn = "dt.css"), "public/stylesheets/#{fn}"
+      m.file (fn = "dt.rb"), "config/initializers/#{fn}"
       m.readme "INSTALL"
     end
   end
