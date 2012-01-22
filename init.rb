@@ -1,2 +1,2 @@
 # Rails plugin init.
-require "rails_dt"
+require File.join(File.dirname(__FILE__), "lib/rails_dt")
