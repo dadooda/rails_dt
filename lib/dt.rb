@@ -51,6 +51,8 @@ module DT
   class Instance
     attr_writer :conf, :rails_logger, :stderr
 
+    # The configuration object.
+    #
     # @return [DT::Config]
     def conf
       @conf ||= Config.new
@@ -84,11 +86,15 @@ module DT
       nil
     end
 
+    # An object to use as log in Rails mode. Default is <tt>Rails.logger</tt>.
+    #
     # @return [ActiveSupport::Logger]
     def rails_logger
       @rails_logger ||= Rails.logger
     end
 
+    # A writable IO stream to print to in non-Rails mode. Default is <tt>STDERR</tt>.
+    #
     # @return [IO]
     def stderr
       @stderr ||= STDERR
