@@ -1,162 +1,58 @@
-Rails Debug Toolkit
-===================
 
-Introduction
-------------
+Ruby/Rails debug toolkit
+========================
 
-`rails_dt` gem gives you `DT.p()` method you can use anywhere in your project to print your debug messages.
-
-It's somewhat similar to Ruby's native `p()` with output being sent to log, console and web.
-
-For example, `DT.p "Hello, world!"` invoked in `RootController` will give you a:
-
-    [DT app/controllers/root_controller.rb:3] Hello, world!
+`rails_dt` gem gives you the `DT.p()` method to print debug messages.
 
 
-The Ideas Behind It
--------------------
-
-* Debug message printer must **not require initialization**.
-* Debug message printer must be **nothing else**, but a debug message printer.
-* Debug message printer must be simple and invoked **always the same way** regardless of where you call it from.
-* Debug message printer calls must be **clearly visible** in the code.
-* Debug message printer must **print its location in code** so you can find and modify/remove it as easy as possible.
-
-
-Express Setup (Rails 3)
------------------------
+## Usage
 
 In your `Gemfile`, add:
 
-    gem "rails_dt"
+```ruby
+gem "rails_dt", "git: https://github.com/dadooda/rails_dt.git"
+```
 
-Then do a `bundle install`.
+Now, in your code, do something like:
 
-This gives you an express (zero-conf) setup, which outputs messages to log, `log/dt.log` and console.
-
-
-Express Setup (Rails 2)
------------------------
-
-    $ gem sources --add http://rubygems.org
-    $ gem install rails_dt
-
-In your `config/environment.rb`, add:
-
-    config.gem "rails_dt"
+```ruby
+DT.p "checkpoint 1"
+DT.p "user", user
+```
 
 
-Setting Up Web Output (Both Rails 3 and Rails 2)
-------------------------------------------------
+## The ideas behind it
 
-In your application root, do a:
-
-    $ rails generate rails_dt     # Rails 3
-    $ script/generate rails_dt    # Rails 2
-
-Follow the instructions the generator gives you then. They are listed below.
-
-Inside your `ApplicationController` class, add:
-
-    handles_dt
-
-Inside your `app/views/layouts/application.html.erb` `<head>` section, add:
-
-    <%= stylesheet_link_tag "dt" %>
-
-Inside your `app/views/layouts/application.html.erb` `<body>` section, add:
-
-    <div class="DT">
-      <%= DT.web_messages_as_html %>
-    </div>
+1. Debug message printer **must not require initialization**.
+2. Debug message printer **must be nothing else**, but a debug message printer.
+3. Debug message printer **must be invoked the same way** regardless of place of invocation.
+4. Debug message printer calls **must be clearly visible** in code.
+5. Debug message printer **must print its location in code** so you can easily remove the call once debugging is over.
 
 
-Checking Setup
---------------
+### A few out-of-the-box implementations review
 
-Somewhere in your `app/views/layouts/application.html.erb`, add:
+Let me check a few popular out-of-the box implementation used by many of developers against "the ideas" items listed above.
 
-    <% DT.p "hello, world!" %>
+`Rails.logger`:
 
-Refresh the page. You should see "hello, world!":
+1. Fail. It only works in Rails. Rails requires initialization.
+2. (!) Fail. Logger is a production facility.
+3. So-so. It's not possible to use Rails logger to debug parts of Rails itself.
+4. (!) Fail. Debugging logger calls look the same as production logger calls.
+5. Fail. Location in code is not printed.
 
-* In your application log.
-* In `log/dt.log`.
-* On the web page, if you've set it up (see above).
+`Kernel::p`:
 
-
-Debugging...
-------------
-
-### ...Models ###
-
-    def before_save
-      DT.p "in before_save"
-    end
-
-### ...Controllers ###
-
-    def action
-      DT.p "hi, I'm #{action_name}"
-    end
-
-### ...Views ###
-
-    <div class="body">
-      <% DT.p "@users", @users %>
-    </div>
-
-### ...Filters ###
-
-Insert debugging code:
-
-    before_filter do
-      DT.p "in before_filter xyz"
-    end
-
-    after_filter do
-      DT.p "in after_filter xyz"
-    end
-
-See it in action:
-
-    $ tail -f log/dt.log
-
-### ...Anything! ###
-
-Just use `DT.p` anywhere you want.
+1. OK.
+2. OK.
+3. OK.
+4. So-so. `p` calls hide well among lines of meaningful code and it isn't always easy to spot them.
+5. Fail. Location in code is not printed.
 
 
-Customizing Output Format
--------------------------
+## Cheers!
 
-Create a sample initializer, by doing a:
+Feedback of any kind is greatly appreciated.
 
-    $ rails generate rails_dt     # Rails 3
-    $ script/generate rails_dt    # Rails 2
-
-In `config/initializers/dt.rb` you'll see something like:
-
-    # Customize your DT output.
-    #DT.log_prefix = "[DT <%= file_rel %>:<%= line %>] "
-    #DT.console_prefix = "[DT <%= file_rel %>:<%= line %>] "
-    #DT.web_prefix = '<a href="txmt://open?url=file://<%= file %>&line=<%= line %>"><%= file_rel %>:<%= line %></a> '
-
-Uncomment and edit lines appropriately. Restart server for changes to take effect.
-
-Values are in ERB format. The following macros are available:
-
-* `file` -- full path to file.
-* `file_base` -- file base name.
-* `file_rel` -- file name relative to Rails application root.
-* `line` -- line number.
-
-You can also disable particular output target by setting its prefix to `nil`:
-
-    DT.console_prefix = nil     # Disable console output.
-
-
-Feedback
---------
-
-Send bug reports, suggestions and criticisms through [project's page on GitHub](http://github.com/dadooda/rails_dt).
+&mdash; Alex Fortuna, &copy; 2010-2017

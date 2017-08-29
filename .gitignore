@@ -1,14 +1,12 @@
 # General Ruby, sorted by first letter.
-.old*/
-*-old*
-/*.patch
-.proto-*
-.ref*
+/.bundle/
+/doc/*
+/.rspec
+/vendor/bundle/
+/.yardoc/
 
-# Project-specific.
-/a.rb
-/dev/
-/doc/
-/pkg/
-/README.html
-/.rvmrc
+# Bak/old/orig etc.
+*.old*
+*.orig
+/*.patch
+*.ref*
