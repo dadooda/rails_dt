@@ -5,6 +5,9 @@
 /vendor/bundle/
 /.yardoc/
 
+# Project-specific.
+/log/
+
 # Bak/old/orig etc.
 *.old*
 *.orig

@@ -1,4 +1,5 @@
 
+require "logger"
 require "pathname"
 
 # Ruby/Rails debug toolkit.
@@ -13,7 +14,7 @@ require "pathname"
 # @see DT.p
 module DT
   class Config
-    attr_writer :root_path, :is_rails
+    attr_writer :is_rails, :root_path
 
     def initialize(attrs = {})
       attrs.each {|k, v| send("#{k}=", v)}
@@ -39,7 +40,7 @@ module DT
         # Non-Rails project, attempt to guess.
         if (fn = ENV["BUNDLE_GEMFILE"])
           # The project has a Gemfile, hook up to it.
-          File.expand_path("..", __FILE__)
+          File.expand_path("../..", __FILE__)
         else
           # Default to pwd otherwise.
           Dir.pwd
@@ -49,13 +50,25 @@ module DT
   end # Config
 
   class Instance
-    attr_writer :conf, :rails_logger, :stderr
+    attr_writer :conf, :dt_logger, :rails_logger, :stderr
 
     # The configuration object.
     #
     # @return [DT::Config]
     def conf
       @conf ||= Config.new
+    end
+
+    def dt_logger
+      if instance_variable_defined?(k = :@dt_logger)
+        instance_variable_get(k)
+      else
+        instance_variable_set(k, begin
+          Logger.new(File.join(conf.root_path, "log/dt.log"))
+        rescue Errno::ENOENT
+          nil
+        end)
+      end
     end
 
     # Lower level implementation of <tt>p</tt>. <tt>caller</tt> is mandatory.
@@ -80,6 +93,7 @@ module DT
 
         msg = "[DT #{file_rel}:#{line}] #{value}"
         conf.rails?? rails_logger.debug(msg) : stderr.puts(msg)
+        dt_logger.debug(msg) if dt_logger
       end
 
       # Be like `puts`.

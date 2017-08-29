@@ -20,6 +20,18 @@ DT.p "checkpoint 1"
 DT.p "user", user
 ```
 
+Debug messages are printed to:
+
+* `Rails.logger` in Rails mode (auto-detected);
+* `STDERR` in non-Rails mode;
+* `log/dt.log` if `log/` exists in project root and is writable.
+
+This is often handy:
+
+```
+$ tail -f log/dt.log
+```
+
 
 ## The ideas behind it
 
