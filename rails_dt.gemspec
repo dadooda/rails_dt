@@ -1,5 +1,7 @@
 
-require_relative "lib/rails_dt/version"
+# TODO: Finalize.
+#require_relative ""
+require File.expand_path("../lib/rails_dt/version", __FILE__)
 
 Gem::Specification.new do |s|
   s.name = "rails_dt"
@@ -8,11 +10,9 @@ Gem::Specification.new do |s|
   s.email = ["fortunadze@gmail.com"]
   s.homepage = "http://github.com/dadooda/rails_dt"
 
-  s.summary = %q{Ruby/Rails debug toolkit}
-  #s.description = s.summary    # OPTIMIZE: Do we need this?
+  s.summary = "Ruby/Rails debug toolkit"
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables = `git ls-files -- bin/*`.split("\n").map {|f| File.basename(f)}
   s.require_paths = ["lib"]
 end

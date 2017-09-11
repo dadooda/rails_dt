@@ -3,15 +3,22 @@ require_relative "../dt"
 
 module DT
   class Instance
-    attr_writer :conf, :dt_logger, :rails_logger, :stderr
+    attr_writer :conf, :dt_logger, :stderr
+
+    def initialize(attrs = {})
+      attrs.each { |k, v| public_send("#{k}=", v) }
+    end
 
     # The configuration object.
-    #
-    # @return [DT::Config]
+    # @!attribute conf
+    # @return [Config]
     def conf
       @conf ||= Config.new
     end
 
+    # File logger, an instance of Ruby's <tt>Logger</tt>. Writes to <tt>log/dt.log</tt> if sufficient permissions.
+    # @!attribute dt_logger
+    # @return [Logger]
     def dt_logger
       if instance_variable_defined?(k = :@dt_logger)
         instance_variable_get(k)
@@ -25,9 +32,9 @@ module DT
     end
 
     # Lower level implementation of <tt>p</tt>.
-    #
-    # @param caller [Array] A <tt>[file, line]</tt> pair.
+    # @param caller [Array<Array<file, line>>]
     # @return nil
+    # @see DT.p
     def _p(caller, *args)
       file, line = caller[0].split(":")
       file_rel = begin
@@ -47,7 +54,7 @@ module DT
         end
 
         msg = "[DT #{file_rel}:#{line}] #{value}"
-        conf.rails?? rails_logger.debug(msg) : stderr.puts(msg)
+        stderr.puts(msg)
         dt_logger.debug(msg) if dt_logger
       end
 
@@ -55,15 +62,7 @@ module DT
       nil
     end
 
-    # An object to use as log in Rails mode. Default is <tt>conf.rails.logger</tt>.
-    #
-    # @return [ActiveSupport::Logger]
-    def rails_logger
-      @rails_logger ||= conf.rails.logger
-    end
-
-    # A writable IO stream to print to in non-Rails mode. Default is <tt>STDERR</tt>.
-    #
+    # A writable IO stream to print to. Default is <tt>STDERR</tt>.
     # @return [IO]
     def stderr
       @stderr ||= STDERR

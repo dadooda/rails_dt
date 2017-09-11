@@ -6,6 +6,7 @@
 /.yardoc/
 
 # Project-specific.
+/Gemfile.lock
 /log/
 
 # Bak/old/orig etc.

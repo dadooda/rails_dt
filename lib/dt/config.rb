@@ -1,31 +1,27 @@
 
+require "pathname"
+
 require_relative "../dt"
 
 module DT
   class Config
-    attr_writer :env, :is_rails, :rails, :root_path
+    attr_writer :env, :rails, :root_path
 
     def initialize(attrs = {})
-      attrs.each {|k, v| send("#{k}=", v)}
+      attrs.each { |k, v| public_send("#{k}=", v) }
     end
 
-    # @return [mixed] Hash-like object. Default is <tt>ENV</tt>.
+    # A copy of <tt>ENV</tt> for value-reading purposes. Default is <tt>ENV.to_hash</tt>.
+    # @!attribute env
+    # @return [Hash]
     def env
-      @env ||= ENV
+      @env ||= ENV.to_hash
     end
 
-    # @return [boolean]
-    def is_rails
-      if instance_variable_defined?(k = :@is_rails)
-        instance_variable_get(k)
-      else
-        instance_variable_set(k, !!rails)
-      end
-    end
-
-    alias_method :rails?, :is_rails
-
-    # @return [Module] Top-level Rails module or substitute value. Default is <tt>Rails</tt> or <tt>nil</tt>.
+    # Top-level Rails module or substitute value.
+    # @!attribute Rails
+    # @return [Module] <tt>Rails</tt>.
+    # @return [nil]
     def rails
       if instance_variable_defined?(k = :@rails)
         instance_variable_get(k)
@@ -34,20 +30,31 @@ module DT
       end
     end
 
+    # @!attribute root_path
     # @return [String]
     def root_path
-      @root_path ||= if rails?
-        # Rails project.
-        rails.root.to_s    # Already a `Pathname`.
-      else
-        # Non-Rails project, attempt to guess.
-        if (fn = env["BUNDLE_GEMFILE"])
-          # The project has a Gemfile, hook it up.
-          File.expand_path("..", fn)
+      @root_path ||= begin
+        # 1. Fetch "raw" value, suitable as `Pathname` argument.
+        s = if rails
+          # Rails project.
+          rails.root
         else
-          # Default to pwd otherwise.
-          Dir.pwd
+          # Non-Rails project, attempt to guess.
+          if (fn = env["BUNDLE_GEMFILE"])
+            # The project has a Gemfile, hook it up.
+            File.expand_path("..", fn)
+          else
+            # Default to pwd otherwise.
+            Dir.pwd
+          end
         end
+
+        # 2. Absolutize raw path. If failure, fall back to original value. This is for the tests.
+        begin
+          Pathname(s).realpath
+        rescue Errno::ENOENT
+          s
+        end.to_s
       end
     end
   end

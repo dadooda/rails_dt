@@ -1,2 +1,2 @@
 
-$: << File.expand_path("../../lib", __dir__) 
+require "rails_dt"

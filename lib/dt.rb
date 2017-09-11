@@ -19,11 +19,13 @@ module DT
   class << self
     attr_writer :instance
 
+    # @!attribute [r] conf
     # @return [Config]
     def conf
       instance.conf
     end
 
+    # @!attribute instance
     # @return [Instance]
     def instance
       @instance ||= Instance.new
@@ -33,6 +35,8 @@ module DT
     #
     #   DT.p "checkpoint 1"
     #   DT.p "user", user
+    #
+    # @return [nil]
     def p(*args)
       instance._p(caller, *args)
     end

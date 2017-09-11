@@ -1,6 +1,4 @@
 
-require "dt/config"
-
 describe DT::Config do
   def newo(attrs = {})
     described_class.new(attrs)
@@ -9,22 +7,20 @@ describe DT::Config do
   describe "#env" do
     it "generally works" do
       r = newo
-      expect(r.env).to eq ENV
+      expect(r.env).to eq ENV.to_hash
 
       r = newo(env: {"USER" => "tom"})
       expect(r.env["USER"]).to eq "tom"
     end
   end
 
-  describe "`#rails` and friends" do
+  describe "#rails" do
     it "generally works" do
-      r = newo
+      r = newo(rails: nil)
       expect(r.rails).to be nil
-      expect(r.rails?).to be false
 
-      r = newo(rails: (rails = Object.new))
-      expect(r.rails).to eq rails
-      expect(r.rails?).to be true
+      r = newo(rails: "obj")
+      expect(r.rails).to eq "obj"
     end
   end
 
