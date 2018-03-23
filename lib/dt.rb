@@ -17,15 +17,13 @@ module DT
   require_relative "dt/instance"
 
   class << self
-    attr_writer :instance
+    attr_writer :conf, :instance
 
-    # @!attribute [r] conf
     # @return [Config]
     def conf
-      instance.conf
+      @conf ||= Config.new
     end
 
-    # @!attribute instance
     # @return [Instance]
     def instance
       @instance ||= Instance.new
@@ -37,14 +35,9 @@ module DT
     #   DT.p "user", user
     #
     # @return [nil]
+    # @see Instance#_p
     def p(*args)
       instance._p(caller, *args)
     end
   end # class << self
 end
-
-#
-# Implementation notes:
-#
-# * `instance` is an OTF-computed value, thus there must be a writer.
-#   Since there's a writer, it's public by definition.

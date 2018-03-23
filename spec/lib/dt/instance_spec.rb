@@ -1,63 +1,172 @@
 
 module DT
-  describe Instance do
-    # OPTIMIZE: Make this shared.
-    let(:cllggr) do
-      # Instance of this class logs every method call and allows to retrieve the calls.
-      # @see #_calls
-      Class.new do
-        # Calls logger so far.
-        # @return [Array]
-        def _calls
-          @_calls ||= []
+  RSpec.describe Instance do
+    use_custom_let(:let_a, :attrs)
+
+    let(:instance) { described_class.new(attrs) }
+
+    subject { instance.send(m) }
+
+    describe "attributes" do
+      describe "#conf" do
+        let_m
+        it do
+          expect(DT).to receive(:conf).once.and_return(:signature)
+          is_expected.to eq :signature
+        end
+      end
+
+      describe "#dt_logger" do
+        let_m
+        it do
+          expect(Logger).to receive(:new).and_return(:signature)
+          expect(subject).to eq :signature
+        end
+      end
+
+      describe "#is_rails_console" do
+        let_m
+        let_a(:conf) { double "conf" }
+        let(:rails_double) { double "rails" }
+
+        before :each do
+          expect(conf).to receive(:rails).at_least(:once).and_return(rails_double)
+          expect(rails_double).to receive(:const_defined?).with(:Console).and_return(is_const_defined)
         end
 
-        def method_missing(m, *args, &block)
-          _calls << [m, args, block].compact
+        context_when is_const_defined: true do
+          it { is_expected.to be true }
+        end
+
+        context_when is_const_defined: false do
+          it { is_expected.to be false }
         end
       end
-    end
 
-    # OPTIMIZE: Make this shared.
-    describe "cllggr" do
-      it "generally works" do
-        r = cllggr.new
-        r.do_this(1)
-        block = -> { puts "fake" }
-        r.do_that(2, 3, &block)
-        expect(r._calls).to eq [[:do_this, [1]], [:do_that, [2, 3], block]]
+      describe "#rails_logger" do
+        let_m
+        let_a(:conf) { double "conf" }
+
+        context "when Rails mode" do
+          let(:rails_double) { double "rails" }
+
+          it do
+            expect(conf).to receive(:rails).at_least(:once).and_return(rails_double)
+            expect(rails_double).to receive(:logger).and_return(:signature)
+            expect(subject).to eq :signature
+          end
+        end
+
+        context "when non-Rails mode" do
+          it do
+            expect(conf).to receive(:rails).at_least(:once).and_return(nil)
+            expect(subject).to be nil
+          end
+        end
       end
-    end
 
-    describe "#rails_logger" do
-      it "is no longer available" do
-        r = described_class.new
-        expect { r.rails_logger = "obj" }.to raise_error NoMethodError
-        expect { r.rails_logger }.to raise_error NoMethodError
+      describe "#stderr" do
+        let_m
+        it { is_expected.to eq STDERR }
       end
-    end
 
-    describe "#_p" do
-      it "generally works" do
-        r = described_class.new(
-          conf: Config.new(
-            rails: nil,
-            root_path: "/some/path",
-          ),
-          stderr: StringIO.new,
-          dt_logger: (dt_logger = cllggr.new),
-        )
+      it { expect(instance).to alias_method(:rails_console?, :is_rails_console) }
+    end # describe "attributes"
 
-        clr = [
-          "/some/path/lib/file2:20 in `method2'",
-          "/some/path/lib/file1:10 in `method1'"
-        ]
+    describe "actions" do
+      describe "#_p" do
+        let_m
 
-        r._p(clr, "Message")
-        lines = r.stderr.tap(&:rewind).to_a
-        expect(lines).to eq ["[DT lib/file2:20 in `method2'] Message\n"]
+        let_a(:conf) { Config.new(root_path: "/some/path") }
+        let_a(:is_rails_console)
 
-        expect(dt_logger._calls).to eq [[:debug, ["[DT lib/file2:20 in `method2'] Message"]]]
+        # Output channels.
+        let_a(:dt_logger) { double "dt_logger" }        # "1".
+        let_a(:rails_logger) { double "rails_logger" }  # "2".
+        let_a(:stderr) { double "stderr" }      # This one is a "backup" output channel which pairs with `rails_logger`.
+
+        let(:args) { ["Message", {kk: 12}] }
+        let(:caller) do
+          [
+            "/some/path/lib/file2:20 in `method2'",
+            "/some/path/lib/file1:10 in `method1'",
+          ]
+        end
+        let(:msg1) { "#{pfx} Message" }
+        let(:msg2) { "#{pfx} {:kk=>12}"}
+        let(:pfx) { "[DT lib/file2:20 in `method2']" }
+
+        subject { instance.send(m, caller, *args) }
+
+        # Disable output channels in combos to leave out just one.
+        # Order: dt_logger, rails_logger, stdout (via `is_rails_console`).
+
+        def expect_to_dt
+          expect(dt_logger).to receive(:debug).once.with(msg1)
+          expect(dt_logger).to receive(:debug).once.with(msg2)
+        end
+
+        def expect_to_rails
+          expect(rails_logger).to receive(:debug).once.with(msg1)
+          expect(rails_logger).to receive(:debug).once.with(msg2)
+        end
+
+        def expect_to_stderr
+          expect(stderr).to receive(:puts).once.with(msg1)
+          expect(stderr).to receive(:puts).once.with(msg2)
+        end
+
+        # Disable 1.
+        context_when dt_logger: nil do
+          context_when is_rails_console: true do
+            it do
+              expect_to_rails
+              subject
+            end
+          end
+
+          it do
+            expect_to_rails
+            expect_to_stderr
+            subject
+          end
+        end
+
+        # Disable 2.
+        context_when rails_logger: nil do
+          it do
+            expect_to_dt
+            expect_to_stderr
+            subject
+          end
+        end
+
+        # Disable 1 and 2.
+        context_when dt_logger: nil, rails_logger: nil do
+          it do
+            expect_to_stderr
+            subject
+          end
+        end
+
+        # Disable all.
+        context_when dt_logger: nil, rails_logger: nil, stderr: nil do
+          it "generally works" do
+            # Just expect nothing to crash by using `nil`.
+            # RSpec negative expectations are warned against (which I think is right).
+            subject
+          end
+        end
+
+        # Generic case, all channels enabled.
+        context_when is_rails_console: false do
+          it do
+            expect_to_dt
+            expect_to_rails
+            expect_to_stderr
+            subject
+          end
+        end
       end
     end
   end
