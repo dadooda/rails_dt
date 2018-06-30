@@ -6,6 +6,7 @@
 /.yardoc/
 
 # Project-specific.
+/*.gem
 /Gemfile.lock
 /log/
 

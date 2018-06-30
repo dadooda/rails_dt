@@ -10,7 +10,8 @@ Ruby/Rails debug toolkit
 In your `Gemfile`, add:
 
 ```ruby
-gem "rails_dt", "git: https://github.com/dadooda/rails_dt.git"
+gem "rails_dt"
+#gem "rails_dt", "git: https://github.com/dadooda/rails_dt.git"   # Edge version.
 ```
 
 Now, in your code, do something like:
