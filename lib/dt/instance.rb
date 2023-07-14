@@ -24,15 +24,30 @@ module DT
     # File logger, an instance of Ruby's <tt>Logger</tt>.
     # @return [Logger] Default is a <tt>Logger</tt> writing to <tt>log/dt.log</tt>.
     def dt_logger
-      if instance_variable_defined?(k = :@dt_logger)
-        instance_variable_get(k)
-      else
-        instance_variable_set(k, begin
-          Logger.new(conf.root_path + "log/dt.log")
+      # TODO: Fin.
+      igetset(:dt_logger) do
+        begin
+          # OPTIMIZE: Make configurable.
+          Logger.new(conf.root_path + "log/dt.log").tap do |_|
+            # TODO: Fin. Make configurable. See dlogger for tokenized format.
+            _.formatter = proc do |severity, time, progname, msg|
+              "#{time.strftime('%Y-%m-%d %H:%M:%S')} #{msg}\n"
+            end
+          end
         rescue Errno::ENOENT
           nil
-        end)
+        end
       end
+
+      # if instance_variable_defined?(k = :@dt_logger)
+      #   instance_variable_get(k)
+      # else
+      #   instance_variable_set(k, begin
+      #     Logger.new(conf.root_path + "log/dt.log")
+      #   rescue Errno::ENOENT
+      #     nil
+      #   end)
+      # end
     end
 
     # <tt>true</tt> if running in Rails console.
@@ -64,6 +79,10 @@ module DT
 
     #--------------------------------------- Actions
 
+    # TODO: Make line component computations separate testable classes.
+
+    # TODO: Make it `p`, what the heck?
+    #
     # Lower level implementation of <tt>p</tt>.
     #
     # * Print to {#dt_logger} if one is available.
@@ -74,6 +93,9 @@ module DT
     # @return nil
     # @see DT.p
     def _p(caller, *args)
+      # TODO: Fin.
+      limit = 30
+
       file, line = caller[0].split(":")
       file_rel = begin
         Pathname(file).relative_path_from(conf.root_path)
@@ -81,6 +103,20 @@ module DT
         # If `file` is "" or other non-path, `relative_path_from` will raise an error.
         # Fall back to original value then.
         file
+      end
+
+      loc = "#{file_rel}:#{line}"
+
+      # TODO: Fin.
+      if defined? limit
+        trunc = loc[-(limit - 1)..-1]
+        if trunc
+          # Truncate.
+          loc = "…" + trunc
+        else
+          # Right-align.
+          loc = sprintf "%*s", limit, loc
+        end
       end
 
       args.each do |arg|
@@ -91,7 +127,9 @@ module DT
           arg.inspect
         end
 
-        msg = "[DT #{file_rel}:#{line}] #{value}"
+        # OPTIMIZE: Make configurable.
+        # TODO: Fin.
+        msg = "[DT #{loc}] #{value}"
 
         # Fire!
         dt_logger.debug(msg) if dt_logger
@@ -105,6 +143,18 @@ module DT
 
       # Be like `puts`.
       nil
+    end
+
+    private
+
+    # Get/set an instance variable of any type, initialized on the fly.
+    # @param [String] name
+    def igetset(name, &compute)
+      if instance_variable_defined?(k = "@#{name}")
+        instance_variable_get(k)
+      else
+        instance_variable_set(k, compute.call)
+      end
     end
   end
 end
