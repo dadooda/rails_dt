@@ -4,6 +4,7 @@ require "pathname"
 require_relative "../dt"
 
 module DT
+  # OPTIMIZE: This isn't really "config", it's more like an environment.
   class Config
     attr_writer :env, :rails
 
