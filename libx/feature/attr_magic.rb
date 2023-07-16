@@ -1,4 +1,8 @@
 
+"LODoc"
+
+# OPTIMIZE: Fix consistency.
+
 module Feature
   # Provide attribute manipulation methods to the owner class.
   #
