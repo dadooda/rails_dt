@@ -44,7 +44,6 @@ module RSpecMagic
     #   end
     # @param [Hash] h
     # @return [String]
-    # @see #context_when
     def _context_when_formatter(h)
       # OPTIMIZE: Add tests for the formatter specifically.
 
@@ -73,7 +72,6 @@ module RSpecMagic
 
     # Create a context.
     # @param [Hash] h
-    # @see #xcontext_when
     def context_when(h, &block)
       context _context_when_formatter(h) do
         h.each do |k, v|
@@ -89,7 +87,6 @@ module RSpecMagic
     end
 
     # Create a temporarily excluded context.
-    # @see #context_when
     def xcontext_when(h, &block)
       xcontext _context_when_formatter(h) { class_eval(&block) }
     end
