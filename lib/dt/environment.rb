@@ -12,21 +12,21 @@ module DT
     ::Feature::AttrMagic.load(self)
     ::Feature::Initialize.load(self)
 
-    # TODO: Fin.
     attr_writer :env
-    # attr_writer :bundle_gemfile, :rails, :root_path
 
-    # A path to +Gemfile+, if any. Retrieved from <tt>env["BUNDLE_GEMFILE"]</tt>.
+    # A path to +Gemfile+, if present in <tt>env["BUNDLE_GEMFILE"]</tt>.
     # @return [String]
     # @return [nil]
     def gemfile
-      igetset(:gemfile) do
+      # OPTIMIZE: Document this case in `AttrMagic`.
+      igetset(__method__) do
         env["BUNDLE_GEMFILE"]
       end
     end
 
     # A copy of +ENV+ for value-reading purposes.
     # @return [Hash] <i>(defaults to: +ENV.to_h+)</i>
+    # !@method
     def env
       @env ||= ENV.to_h
     end
@@ -35,27 +35,46 @@ module DT
     # @return [Module] +Rails+.
     # @return [nil]
     def rails
-      igetset(:rails) do
+      igetset(__method__) do
         # NOTE: We look up relative name to allow for smart testing.
         Rails if defined? Rails
       end
     end
 
-    # # Root path of the project we run in.
-    # # @return [Pathname]
-    # def root_path
+    # Root path of the project we run in. Computed as:
+    #
+    # 1. Rails root if running under Rails.
+    # 2. Path to +Gemfile+ if running under Bundler.
+    # 3. +Dir.pwd+ otherwise.
+    #
+    # @return [Pathname]
+    def root_path
+      igetset(__method__) do
+        s = root_path_of_rails || root_path_of_bundler || Dir.pwd
+        begin
+          Pathname(s).realpath
+        rescue Errno::ENOENT
+          Pathname(s)
+        end
+      end
+    end
 
-    # end
+    private
 
-    # private
+    # @return [String]
+    # @return [nil]
+    def root_path_of_bundler
+      igetset(__method__) do
+        File.expand_path("..", gemfile) if gemfile
+      end
+    end
 
-    # def root_path_of_bundler
-    # end
-
-    # def root_path_of_rails
-    #   igetset(:root_path_rails) do
-    #     rails.root
-    #   end
-    # end
+    # @return [String]
+    # @return [nil]
+    def root_path_of_rails
+      igetset(__method__) do
+        rails.root.to_s if rails
+      end
+    end
   end # Environment
 end
