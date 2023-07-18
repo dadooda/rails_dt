@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require "pathname"
 
@@ -9,8 +10,8 @@ require_relative "../../libx/feature/initialize"
 module DT
   # The environment we run in. Most features are auto-discovered.
   class Environment
-    ::Feature::AttrMagic.load(self)
-    ::Feature::Initialize.load(self)
+    Feature::AttrMagic.load(self)
+    Feature::Initialize.load(self)
 
     attr_writer :env
 
@@ -26,7 +27,6 @@ module DT
 
     # A copy of +ENV+ for value-reading purposes.
     # @return [Hash] <i>(defaults to: +ENV.to_h+)</i>
-    # !@method
     def env
       @env ||= ENV.to_h
     end

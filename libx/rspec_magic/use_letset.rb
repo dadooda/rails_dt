@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 "LODoc"
 
@@ -6,10 +7,9 @@ module RSpecMagic
   #
   #   describe "…" do
   #     use_letset(:let_a, :attrs)
-  #     use_letset(:let_p, :params)
   #   end
   #
-  # OPTIMIZE: Declarative mode plays nicely with `context_when`.
+  # OPTIMIZE: Declarative mode plays super nicely with `context_when`.
   #
   # ----
   #

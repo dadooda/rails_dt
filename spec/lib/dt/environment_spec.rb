@@ -18,8 +18,8 @@ module DT
           it { is_expected.to include "PATH" }
         end
 
-        context_when env: :signature do
-          it { is_expected.to eq :signature }
+        context_when env: { "signature" => "*" } do
+          it { is_expected.to eq({ "signature" => "*" }) }
         end
       end
 
@@ -40,8 +40,9 @@ module DT
 
         context "when Rails" do
           it do
-            DT.module_eval { Rails = :signature }
-            is_expected.to eq :signature
+            signature = Object.new
+            DT.module_eval { Rails = signature }
+            is_expected.to eq signature
             DT.module_eval { remove_const :Rails rescue nil }
           end
         end
