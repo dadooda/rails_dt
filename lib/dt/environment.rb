@@ -12,12 +12,15 @@ module DT
     ::Feature::AttrMagic.load(self)
     ::Feature::Initialize.load(self)
 
-    attr_writer :bundle_gemfile, :env, :rails, :root_path
+    # TODO: Fin.
+    attr_writer :env
+    # attr_writer :bundle_gemfile, :rails, :root_path
 
-    # @return [String] <i>(defaults to: <tt>env["BUNDLE_GEMFILE"]</tt>)</i>
+    # A path to +Gemfile+, if any. Retrieved from <tt>env["BUNDLE_GEMFILE"]</tt>.
+    # @return [String]
     # @return [nil]
-    def bundle_gemfile
-      igetset(:bundle_gemfile) do
+    def gemfile
+      igetset(:gemfile) do
         env["BUNDLE_GEMFILE"]
       end
     end
@@ -28,7 +31,7 @@ module DT
       @env ||= ENV.to_h
     end
 
-    # Top-level Rails module, if one is around.
+    # Top-level Rails module, if any.
     # @return [Module] +Rails+.
     # @return [nil]
     def rails
@@ -38,21 +41,21 @@ module DT
       end
     end
 
-    # Root path of the project we run in.
-    # @return [Pathname]
-    def root_path
+    # # Root path of the project we run in.
+    # # @return [Pathname]
+    # def root_path
 
-    end
+    # end
 
-    private
+    # private
 
-    def root_path_of_bundler
-    end
+    # def root_path_of_bundler
+    # end
 
-    def root_path_of_rails
-      igetset(:root_path_rails) do
-        rails.root
-      end
-    end
-  end
+    # def root_path_of_rails
+    #   igetset(:root_path_rails) do
+    #     rails.root
+    #   end
+    # end
+  end # Environment
 end
