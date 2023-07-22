@@ -1,5 +1,5 @@
 
-RSpec.describe "`alias_method` matcher" do
+describe "`alias_method` matcher" do
   describe "klass" do
     let(:klass) do
       Class.new do

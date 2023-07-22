@@ -93,7 +93,7 @@ module RSpecMagic
   end
 
   # Activate.
-  defined?(::RSpec) and ::RSpec.configure do |config|
+  defined?(RSpec) and RSpec.configure do |config|
     config.extend ContextWhen
   end
 end
