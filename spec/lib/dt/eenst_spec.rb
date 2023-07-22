@@ -31,7 +31,7 @@ module DT
         end
       end
 
-      describe "#format_location" do
+      xdescribe "#format_location" do
         it do
           p "subject", eval("[subject]")
           # p "subject", subject

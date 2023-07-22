@@ -28,7 +28,17 @@ module RSpecMagic
   #     …
   #   end
   #
-  # OPTIMIZE: On +Proc+.
+  # ----
+  #
+  # Define a custom formatter via +_context_when_formatter+:
+  #
+  #   context "…" do
+  #     def self._context_when_formatter(h)
+  #       "when #{h.to_json}"
+  #     end
+  #
+  #     …
+  #   end
   module ContextWhen
     # Default formatter for {#context_when}. Redefine at the context level if needed.
     #
@@ -45,8 +55,6 @@ module RSpecMagic
     # @param [Hash] h
     # @return [String]
     def _context_when_formatter(h)
-      # OPTIMIZE: Add tests for the formatter specifically.
-
       # Extract labels for Proc arguments, if any.
       labels = {}
       h.each do |k, v|

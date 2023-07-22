@@ -15,7 +15,7 @@ module DT
 
     # Message format. Available tokens:
     #
-    # * +%{full_loc} — non-abbreviated, variable-length location
+    # * +%{full_loc}+ — non-abbreviated, variable-length location
     # * +%{loc}+ — fixed-length location
     # * +%{msg}+ — message
     #

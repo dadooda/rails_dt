@@ -12,10 +12,12 @@ module DT
     attr_writer :envi
     attr_writer :konf
 
+    # @return [Environment]
     def envi
       @envi ||= Environment.new
     end
 
+    # @return [Konf]
     def konf
       @konf ||= Konf.new
     end
@@ -32,7 +34,10 @@ module DT
     # @return [String]
     def format_file_rel(file)
       begin
-        Pathname(file).relative_path_from(envi.root_path).to_s
+        p "file", file
+        # Computation seems to choke.
+        raise "STOPPED HERE"
+        xd_pathname(file).relative_path_from(envi.root_path).to_s
       rescue ArgumentError
         file
       end
@@ -44,6 +49,18 @@ module DT
     def format_location(callerXX = "kk")
       raise "STOPPED HERE"
       # p "caller", caller
+    end
+
+    # External dependency.
+    # @return [Kernel]
+    def xd_kernel
+      @xd_kernel ||= Kernel
+    end
+
+    # External dependency.
+    # @return [Pathname]
+    def xd_pathname
+      @xd_pathname ||= Pathname
     end
   end
 end

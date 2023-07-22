@@ -35,6 +35,7 @@ module DT
     # @return [Module] +Rails+.
     # @return [nil]
     def rails
+      # NOTE: In our case `Rails` isn't just an external dependency, but a part of the public interface.
       igetset(__method__) do
         # NOTE: We look up relative name to allow for smart testing.
         Rails if defined? Rails
@@ -52,14 +53,18 @@ module DT
       igetset(__method__) do
         s = root_path_of_rails || root_path_of_bundler || Dir.pwd
         begin
-          Pathname(s).realpath
+          xd_pathname(s).realpath
         rescue Errno::ENOENT
-          Pathname(s)
+          xd_pathname(s)
         end
       end
     end
 
     private
+
+    def xd_pathname
+      @xd_pathname ||= Pathname
+    end
 
     # @return [String]
     # @return [nil]
