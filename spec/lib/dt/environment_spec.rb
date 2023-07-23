@@ -50,6 +50,7 @@ module DT
 
       describe "#root_path" do
         before :each do
+          # OPTIMIZE: Make Dir an XD.
           defined?(dir_pwd) and allow(Dir).to receive(:pwd).and_return(dir_pwd)
           defined?(root_path_of_bundler) and allow(obj).to receive(:root_path_of_bundler).and_return(root_path_of_bundler)
           defined?(root_path_of_rails) and allow(obj).to receive(:root_path_of_rails).and_return(root_path_of_rails)

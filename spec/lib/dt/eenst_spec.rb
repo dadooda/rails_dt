@@ -8,6 +8,7 @@ module DT
     let(:obj) { described_class.new(attrs) }
 
     describe "function methods" do
+      # NOTE: Some, if not all of the function methods are private.
       subject { obj.send(m, *(defined?(args) ? args : [])) }
 
       describe "#extract_file_line" do
@@ -17,26 +18,45 @@ module DT
       end
 
       describe "#format_file_rel" do
-        context "when eval" do
-          pending("find live examples")
+        let_a(:envi) { double("envi") }
+
+        before :each do
+          defined?(root_path) and allow(envi).to receive(:root_path).and_return(Pathname(root_path))
         end
 
-        context_when args: ["/some/path/to/file.rb"] do
-          let_a(:envi) { double("envi") }
+        context_when root_path: "/some/path" do
+          context_when args: ["just_a_file.rb"] do
+            it { is_expected.to eq "just_a_file.rb" }
+          end
 
-          it do
-            allow(envi).to receive(:root_path).and_return(Pathname("/some/path"))
-            is_expected.to eq "to/file.rb"
+          context_when args: ["/some/path/to/file.rb"] do
+            it { is_expected.to eq "to/file.rb" }
+          end
+
+          context_when args: ["/some/other/file.rb"] do
+            it { is_expected.to eq "../other/file.rb" }
           end
         end
-      end
+      end # describe "#format_file_rel"
 
-      xdescribe "#format_location" do
-        it do
-          p "subject", eval("[subject]")
-          # p "subject", subject
+      describe "#format_location" do
+        before :each do
+          defined?(ffr_result) and allow(obj).to receive(:format_file_rel).and_return(ffr_result)
         end
+
+        context_when args:["yoo moo"] do
+          context_when xxxffr_result: "keke" do
+            it do
+              subject
+            end
+          end
+        end
+
+        # it do
+        #   p "subject", eval("[subject]")
+        #   # p "subject", subject
+        # end
       end
-    end # function methods
+    end # describe "function methods"
   end # describe
 end

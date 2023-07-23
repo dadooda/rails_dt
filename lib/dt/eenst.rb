@@ -34,12 +34,14 @@ module DT
     # @return [String]
     def format_file_rel(file)
       begin
-        p "file", file
-        # Computation seems to choke.
-        raise "STOPPED HERE"
-        xd_pathname(file).relative_path_from(envi.root_path).to_s
-      rescue ArgumentError
-        file
+        xd_pathname.new(file).relative_path_from(envi.root_path).to_s
+      rescue ArgumentError => e
+        if e.message.start_with? "different prefix:"
+          # Handle 'different prefix: "" and "/some/path"'. Default to `file` as is.
+          file
+        else
+          raise e
+        end
       end
     end
 
@@ -47,8 +49,11 @@ module DT
     # @param [String] msg
     # @return [String, String] File and line number.
     def format_location(callerXX = "kk")
-      raise "STOPPED HERE"
+      p "envi.root_path", envi.root_path
+      p "format_file_rel('kk')", format_file_rel('kk')
+      # raise "STOPPED HERE"
       # p "caller", caller
+      "hee haa"
     end
 
     # External dependency.

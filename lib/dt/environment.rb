@@ -53,18 +53,14 @@ module DT
       igetset(__method__) do
         s = root_path_of_rails || root_path_of_bundler || Dir.pwd
         begin
-          xd_pathname(s).realpath
+          xd_pathname.new(s).realpath
         rescue Errno::ENOENT
-          xd_pathname(s)
+          xd_pathname.new(s)
         end
       end
     end
 
     private
-
-    def xd_pathname
-      @xd_pathname ||= Pathname
-    end
 
     # @return [String]
     # @return [nil]
@@ -80,6 +76,12 @@ module DT
       igetset(__method__) do
         rails.root.to_s if rails
       end
+    end
+
+    # External dependency.
+    # @return [Pathname]
+    def xd_pathname
+      @xd_pathname ||= Pathname
     end
   end # Environment
 end
