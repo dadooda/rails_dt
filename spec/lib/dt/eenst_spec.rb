@@ -8,12 +8,20 @@ module DT
     let(:obj) { described_class.new(attrs) }
 
     describe "function methods" do
-      # NOTE: Some, if not all of the function methods are private.
+      # TODO: Fin.
+      # # Generic caller info.
+      # CALLER1 = [
+      #   "/path/to/project/file1.rb:201:in `meth'",
+      #   "/path/to/project/file2.rb:403:in `handle_line'",
+      #   "/path/to/project/file3.rb:504:in `block (2 levels) in eval'",
+      # ]
+
+      # NOTE: At least some of the function methods are private.
       subject { obj.send(m, *(defined?(args) ? args : [])) }
 
       describe "#extract_file_line" do
-        context_when args: ["/path/to/file.rb:123:in `some_meth'"] do
-          it { is_expected.to eq ["/path/to/file.rb", "123"] }
+        context_when args: ["/path/to/project/file1.rb:201:in `meth'"] do
+          it { is_expected.to eq ["/path/to/project/file1.rb", "201"] }
         end
       end
 
@@ -39,24 +47,41 @@ module DT
         end
       end # describe "#format_file_rel"
 
-      describe "#format_location" do
+      describe "#format_full_loc and #format_loc" do
+        let_a(:konf) { double("konf") }
+
+        # NOTE: `full_loc` is actually a shorter variant of `format_full_loc_result`.
+        let(:full_loc) { obj.send(:format_full_loc, *args) }
+        let(:loc) { obj.send(:format_loc, *args) }
+
         before :each do
+          defined?(efl_result) and allow(obj).to receive(:extract_file_line).and_return(efl_result)
           defined?(ffr_result) and allow(obj).to receive(:format_file_rel).and_return(ffr_result)
+
+          defined?(loc_length) and allow(konf).to receive(:loc_length).and_return(loc_length)
         end
 
-        context_when args:["yoo moo"] do
-          context_when xxxffr_result: "keke" do
-            it do
-              subject
+        context_when args:[["*"]], efl_result: ["**", "201"], loc_length: 20 do
+          context_when ffr_result: "../to/file.rb" do
+            it "generally works" do
+              expect(full_loc).to eq "../to/file.rb:201"
+              expect(loc).to eq "   ../to/file.rb:201"
+              expect(loc.length).to eq loc_length
+            end
+
+          end
+
+          context_when ffr_result: "../to/very_long_path/extremely_long_file..rb" do
+            it "generally works" do
+              expect(full_loc).to eq "../to/very_long_path/extremely_long_file..rb:201"
+              expect(loc).to eq "…y_long_file..rb:201"
+              expect(loc.length).to eq loc_length
             end
           end
         end
-
-        # it do
-        #   p "subject", eval("[subject]")
-        #   # p "subject", subject
-        # end
-      end
+      end # describe "location functions"
     end # describe "function methods"
+
+    # OPTIMIZE: A few sporadic end-to-end tests.
   end # describe
 end

@@ -12,6 +12,7 @@ module DT
     Feature::Initialize.load(self)
 
     attr_writer :format
+    attr_writer :loc_length
 
     # Message format. Available tokens:
     #
@@ -22,6 +23,12 @@ module DT
     # @return [String] <i>(defaults to: <tt>"[DT %{loc}] %{msg}"</tt>)</i>
     def format
       @format ||= "[DT %{loc}] %{msg}"
+    end
+
+    # +%{loc}+ token length.
+    # @return [Fixnum] <i>(defaults to: 30)</i>
+    def loc_length
+      @loc_length ||= 30
     end
   end
 end

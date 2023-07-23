@@ -24,20 +24,26 @@ module DT
 
     private
 
-    # @param [String] caller_line
-    # @return [Array<String>] <tt>[file, line]</tt>.
+    # Extract file and line information.
+    # @param [String] caller_line E.g. <tt>"/path/to/project/file1.rb:201:in `meth'"</tt>.
+    # @return [[String, String]] File and line number.
     def extract_file_line(caller_line)
       caller_line.split(":")[0..1]
     end
 
+    # Format a relative file path.
     # @param [String] file
     # @return [String]
     def format_file_rel(file)
       begin
         xd_pathname.new(file).relative_path_from(envi.root_path).to_s
       rescue ArgumentError => e
+        # Handle known errors only:
+        #
+        #   different prefix: "" and "/some/path"'
+        #
+        # Default to `file` as is.
         if e.message.start_with? "different prefix:"
-          # Handle 'different prefix: "" and "/some/path"'. Default to `file` as is.
           file
         else
           raise e
@@ -45,15 +51,30 @@ module DT
       end
     end
 
-    # @param [Array<String>] caller
+    # Format a +%{full_loc}+ message token.
+    # @param [String] caller_line
     # @param [String] msg
-    # @return [String, String] File and line number.
-    def format_location(callerXX = "kk")
-      p "envi.root_path", envi.root_path
-      p "format_file_rel('kk')", format_file_rel('kk')
-      # raise "STOPPED HERE"
-      # p "caller", caller
-      "hee haa"
+    # @return [String]
+    def format_full_loc(caller_line)
+      file, line = extract_file_line(caller_line)
+      [format_file_rel(file), line].join(":")
+    end
+
+    # Format a +%{loc}+ message token.
+    # @param [String] caller_line
+    # @param [String] msg
+    # @return [String]
+    def format_loc(caller_line)
+      limit = konf.loc_length
+      full = format_full_loc(caller)
+      truncated = full[-(limit - 1)..-1]
+
+      if truncated
+        "…" + truncated
+      else
+        # Right-align.
+        sprintf "%*s", limit, full
+      end
     end
 
     # External dependency.
