@@ -1,4 +1,7 @@
 
+# Must go before all. See https://github.com/simplecov-ruby/simplecov#getting-started.
+require "simplecov"; SimpleCov.start
+
 # Self.
 require "rails_dt"
 

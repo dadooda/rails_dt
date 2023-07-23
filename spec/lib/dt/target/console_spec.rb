@@ -20,5 +20,5 @@ module DT; module Target
         end
       end
     end
-  end # decribe
+  end # describe
 end; end

@@ -1,6 +1,7 @@
 
 # General Ruby, sorted by first letter.
 /.bundle/
+/coverage/
 /doc/*
 /.rspec
 /vendor/bundle/
