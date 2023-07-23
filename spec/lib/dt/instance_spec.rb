@@ -1,15 +1,15 @@
 
 module DT
   RSpec.describe Instance do
-    use_custom_let(:let_a, :attrs)
+    use_letset(:let_a, :attrs)
+    use_method_discovery :m
 
-    let(:instance) { described_class.new(attrs) }
+    let(:obj) { described_class.new(attrs) }
 
-    subject { instance.send(m) }
+    subject { obj.send(m) }
 
     describe "attributes" do
       describe "#conf" do
-        let_m
         it do
           expect(DT).to receive(:conf).once.and_return(:signature)
           is_expected.to eq :signature
@@ -17,7 +17,6 @@ module DT
       end
 
       describe "#dt_logger" do
-        let_m
         it do
           expect(Logger).to receive(:new).and_return(:signature)
           expect(subject).to eq :signature
@@ -25,7 +24,6 @@ module DT
       end
 
       describe "#is_rails_console" do
-        let_m
         let_a(:conf) { double "conf" }
         let(:rails_double) { double "rails" }
 
@@ -44,7 +42,6 @@ module DT
       end
 
       describe "#rails_logger" do
-        let_m
         let_a(:conf) { double "conf" }
 
         context "when Rails mode" do
@@ -66,16 +63,14 @@ module DT
       end
 
       describe "#stderr" do
-        let_m
         it { is_expected.to eq STDERR }
       end
 
-      it { expect(instance).to alias_method(:rails_console?, :is_rails_console) }
+      it { expect(obj).to alias_method(:rails_console?, :is_rails_console) }
     end # describe "attributes"
 
     describe "actions" do
       describe "#_p" do
-        let_m
 
         let_a(:conf) { Config.new(root_path: "/some/path") }
         let_a(:is_rails_console)
@@ -96,7 +91,7 @@ module DT
         let(:msg2) { "#{pfx} {:kk=>12}"}
         let(:pfx) { "[DT lib/file2:20 in `method2']" }
 
-        subject { instance.send(m, caller, *args) }
+        subject { obj.send(m, caller, *args) }
 
         # Disable output channels in combos to leave out just one.
         # Order: dt_logger, rails_logger, stdout (via `is_rails_console`).

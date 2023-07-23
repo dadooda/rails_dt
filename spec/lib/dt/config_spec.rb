@@ -1,19 +1,18 @@
 
 module DT
-  RSpec.describe Config do
-    use_custom_let(:let_a, :attrs)
+  describe Config do
+    use_letset(:let_a, :attrs)
+    use_method_discovery :m
 
-    let(:instance) { described_class.new(attrs) }
+    let(:obj) { described_class.new(attrs) }
 
-    subject { instance.send(m) }
+    subject { obj.send(m) }
 
     describe "#env" do
-      let_m
       it { is_expected.to eq ENV.to_h }
     end
 
     describe "#rails" do
-      let_m
       let_a(:rails)
       # NOTE: We can't reliably test for constant probing since `defined?` is a language keyword.
       context_when rails: :signature do
@@ -22,13 +21,12 @@ module DT
     end
 
     describe "#root_path" do
-      let_m
       let(:pathname_double) { double "Pathname(raw_path)" }
       let_a(:env)
       let_a(:rails)
 
       before :each do
-        expect(instance).to receive(:Pathname).with(raw_path).once.and_return(pathname_double)
+        expect(obj).to receive(:Pathname).with(raw_path).once.and_return(pathname_double)
         expect(pathname_double).to receive(:realpath).once.and_return(:signature)
       end
 
@@ -66,11 +64,11 @@ module DT
     describe "#root_path=" do
       let_a(:root_path)
 
-      subject { instance.root_path }
+      subject { obj.root_path }
 
       context_when root_path: "/some/path" do
         it { is_expected.to eq Pathname("/some/path") }
       end
     end
-  end
+  end # describe
 end
