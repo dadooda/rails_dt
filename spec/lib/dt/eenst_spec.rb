@@ -16,7 +16,7 @@ module DT
       #   "/path/to/project/file3.rb:504:in `block (2 levels) in eval'",
       # ]
 
-      # NOTE: At least some of the function methods are private.
+      # NOTE: At least some of the function methods are usually private.
       subject { obj.send(m, *(defined?(args) ? args : [])) }
 
       describe "#extract_file_line" do

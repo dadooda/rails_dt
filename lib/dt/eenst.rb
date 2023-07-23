@@ -1,4 +1,6 @@
 
+require_relative "../../libx/feature/attr_magic"
+require_relative "../../libx/feature/initialize"
 require_relative "konf"
 
 "LODoc"
