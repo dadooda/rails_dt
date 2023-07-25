@@ -18,7 +18,7 @@ module DT
     #
     # * +%{full_loc}+ — non-abbreviated, variable-length location
     # * +%{loc}+ — fixed-length location
-    # * +%{msg}+ — message
+    # * +%{msg}+ — message or value
     #
     # @return [String] <i>(defaults to: <tt>"[DT %{loc}] %{msg}"</tt>)</i>
     def format

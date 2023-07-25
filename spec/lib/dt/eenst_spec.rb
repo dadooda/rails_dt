@@ -7,6 +7,19 @@ module DT
 
     let(:obj) { described_class.new(attrs) }
 
+    describe "lala" do
+      it "shalala" do
+        obj._p("keka!", "hey", 25)
+      end
+    end
+
+    describe "public methods" do
+      subject { obj.public_send(m, *(defined?(args) ? args : [])) }
+
+      describe "#_p1" do
+      end
+    end
+
     describe "function methods" do
       # TODO: Fin.
       # # Generic caller info.
@@ -19,7 +32,26 @@ module DT
       # NOTE: At least some of the function methods are usually private.
       subject { obj.send(m, *(defined?(args) ? args : [])) }
 
+      # TODO: Organize.
+      describe "#format_msg" do
+        context_when args: ["hey"] do
+          it { is_expected.to eq "hey" }
+        end
+
+        context_when args: [1.5] do
+          it { is_expected.to eq "1.5" }
+        end
+
+        context_when args: [{kk: "mkk"}] do
+          it { is_expected.to eq "{:kk=>\"mkk\"}" }
+        end
+      end
+
       describe "#extract_file_line" do
+        context_when args: ["one-two-three::"] do
+          it { is_expected.to eq ["one-two-three::", "?"] }
+        end
+
         context_when args: ["/path/to/project/file1.rb:201:in `meth'"] do
           it { is_expected.to eq ["/path/to/project/file1.rb", "201"] }
         end
@@ -79,7 +111,7 @@ module DT
             end
           end
         end
-      end # describe "location functions"
+      end # describe "#format_full_loc and #format_loc"
     end # describe "function methods"
 
     # OPTIMIZE: A few sporadic end-to-end tests.
