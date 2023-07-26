@@ -48,8 +48,15 @@ module DT
     private
 
     # TODO: Organize.
+    # Print to the console target if one is enabled.
     def print_to_console(fullmsg)
       p "#{__method__} inv"
+      p "konf.console", konf.console
+
+      # If enabled, sort of.
+      # if konf.target.console
+
+      t_console.print(fullmsg)
     end
 
     # Extract file and line information.

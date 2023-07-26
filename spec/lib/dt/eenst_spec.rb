@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module DT
   describe Eenst do
@@ -48,6 +47,15 @@ module DT
 
       # NOTE: At least some of the function methods are usually private.
       subject { obj.send(m, *(defined?(args) ? args : [])) }
+
+      # TODO: Organize.
+      describe "#print_to_console" do
+        context_when args:["smargs"] do
+          it do
+            subject
+          end
+        end
+      end
 
       describe "#extract_file_line" do
         context_when args: ["one-two-three::"] do

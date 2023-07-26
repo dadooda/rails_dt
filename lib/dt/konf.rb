@@ -2,8 +2,7 @@
 
 require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
-
-"LODoc"
+require_relative "konf/console"
 
 module DT
   # The configuration object.
@@ -11,8 +10,12 @@ module DT
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    attr_writer :format
-    attr_writer :loc_length
+    attr_writer :console, :format, :loc_length
+
+    # @return [Console]
+    def console
+      @console ||= Console.new
+    end
 
     # Message format. Available tokens:
     #
@@ -32,3 +35,23 @@ module DT
     end
   end
 end
+
+# TODO: CUP.
+
+=begin
+
+target.
+  console.    # Konf::Console
+    enable = true
+  log.
+    enable = true
+  rails
+    enable = true
+
+xx
+
+
+
+
+
+=end
