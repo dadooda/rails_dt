@@ -24,7 +24,7 @@ module DT
       @konf ||= Konf.new
     end
 
-    # Actually print the message to all enabled targets.
+    # Actually print.
     # @param [String] caller_line
     # @param [Array<mixed>] args Messages and values.
     # @return [nil]
@@ -34,6 +34,8 @@ module DT
       nil
     end
 
+    private
+
     # Format a message and print it to all enabled targets.
     # @param [String] caller_line
     # @param [String] msg
@@ -41,22 +43,17 @@ module DT
       fullmsg = konf.format % make_tokens(caller_line, msg)
 
       print_to_console(fullmsg)
-
-      nil   # Method is still doc'd as void.
+      print_to_log(fullmsg)
     end
 
-    private
-
-    # TODO: Organize.
     # Print to the console target if one is enabled.
+    # @param [String] fullmsg
     def print_to_console(fullmsg)
-      p "#{__method__} inv"
-      p "konf.console", konf.console
+      t_console.print(fullmsg) if konf.console.enabled
+    end
 
-      # If enabled, sort of.
-      # if konf.target.console
-
-      t_console.print(fullmsg)
+    def print_to_log(fullmsg)
+      t_log.print(fullmsg) if konf.log.enabled
     end
 
     # Extract file and line information.
@@ -140,9 +137,16 @@ module DT
       }
     end
 
+    # The console target.
     # @return [Target::Console]
     def t_console
       @t_console ||= Target::Console.new
+    end
+
+    # The log target.
+    # @return [Target::Log]
+    def t_log
+      @t_log ||= Target::Log.new
     end
 
     # External dependency.

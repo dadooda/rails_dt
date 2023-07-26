@@ -3,6 +3,7 @@ require_relative "../../../libx/feature/attr_magic"
 
 module DT; module Target
   class Base
+    Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
     # @abstract

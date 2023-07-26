@@ -9,16 +9,24 @@ module DT; module Target
       subject { obj.public_send(m, *(defined?(args) ? args : [])) }
 
       describe "#print" do
-        context_when args: ["Hey there"] do
-          let(:stderr) { double("stderr") }
+        let(:stderr) { double("stderr") }
 
-          it "generally works" do
-            expect(obj).to receive(:xd_stderr).and_return(stderr)
-            expect(stderr).to receive(:puts).with("Hey there")
+        before :each do
+          expect(obj).to receive(:xd_stderr).and_return(stderr)
+        end
+
+        context_when args: ["Hey there"] do
+          it do
+            expect(stderr).to receive(:puts).with(args[0])
             subject
           end
         end
       end
+    end
+
+    # OPTIMIZE: Make this a shared oneliner. Better be RSpecMagic.
+    it "is inherited from `Base`" do
+      expect(described_class.superclass).to be Base
     end
   end # describe
 end; end

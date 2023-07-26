@@ -17,6 +17,11 @@ module DT
       @console ||= Console.new
     end
 
+    # @return [Log]
+    def log
+      @log ||= Log.new
+    end
+
     # Message format. Available tokens:
     #
     # * +%{full_loc}+ — non-abbreviated, variable-length location
