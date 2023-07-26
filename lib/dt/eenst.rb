@@ -34,46 +34,22 @@ module DT
       nil
     end
 
-    # Print a single +%{msg}+ token to all enabled targets.
+    # Format a message and print it to all enabled targets.
     # @param [String] caller_line
     # @param [String] msg
     def _p1(caller_line, msg)
-      fmt = konf.format
+      fullmsg = konf.format % make_tokens(caller_line, msg)
 
-      args.each do |arg|
-        msg = case arg
-        when String
-          arg
-        else
-          arg.inspect
-        end
+      print_to_console(fullmsg)
 
-        tokens = {
-          full_loc: format_full_loc(caller_line),
-          loc: format_loc(caller_line),
-          msg: msg,
-        }
-
-        fullmsg = fmt % tokens
-        p "=>", fullmsg
-      end
-
-      nil   # Method is doc'd as void.
+      nil   # Method is still doc'd as void.
     end
 
     private
 
     # TODO: Organize.
-    # Format a mixed value into an +%{msg}+ message token.
-    #
-    #   format_msg("hey")   # => "hey"
-    #   format_msg(1.5)     # => "5.5"
-    #
-    # @param [mixed] arg
-    # @return [String]
-    def format_msg(arg)
-      # NOTE: This thing doesn't know anything about `DT::Option`.
-      arg.is_a?(String) ? arg : arg.inspect
+    def print_to_console(fullmsg)
+      p "#{__method__} inv"
     end
 
     # Extract file and line information.
@@ -131,6 +107,30 @@ module DT
         # Right-align.
         sprintf "%*s", limit, full
       end
+    end
+
+    # Format a mixed value into an +%{msg}+ message token.
+    #
+    #   format_msg("hey")   # => "hey"
+    #   format_msg(1.5)     # => "5.5"
+    #
+    # @param [mixed] arg
+    # @return [String]
+    def format_msg(arg)
+      # NOTE: This thing doesn't know anything about `DT::Option`.
+      arg.is_a?(String) ? arg : arg.inspect
+    end
+
+    # Create the message tokens hash.
+    # @param [String] caller_line
+    # @param [String] msg
+    # @return [Hash]
+    def make_tokens(caller_line, msg)
+      {
+        full_loc: format_full_loc(caller_line),
+        loc: format_loc(caller_line),
+        msg: msg,
+      }
     end
 
     # @return [Target::Console]
