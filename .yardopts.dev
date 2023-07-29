@@ -1,5 +1,6 @@
 
-{lib,libx}/**/*.rb
+# TODO: Fin.
+{ldoc,lib,libx}/**/*.rb
 
 --default-return void
 --hide-void-return

@@ -7,6 +7,9 @@
 /vendor/bundle/
 /.yardoc/
 
+# TODO: CUP.
+/ldoc
+
 # Project-specific.
 /*.gem
 /Gemfile.lock
