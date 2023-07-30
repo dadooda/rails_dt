@@ -9,15 +9,9 @@ module DT; module Target
       subject { obj.public_send(m, *(defined?(args) ? args : [])) }
 
       describe "#print" do
-        let(:stderr) { double("stderr") }
-
-        before :each do
-          expect(obj).to receive(:xd_stderr).and_return(stderr)
-        end
-
         context_when args: ["Hey there"] do
           it do
-            expect(stderr).to receive(:puts).with(args[0])
+            expect(STDERR).to receive(:puts).with(args[0])
             subject
           end
         end

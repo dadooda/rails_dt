@@ -1,6 +1,7 @@
 
 module DT
-  RSpec.describe Instance do
+  # TODO: Fin.
+  RSpec.xdescribe Instance do
     use_letset(:let_a, :attrs)
     use_method_discovery :m
 

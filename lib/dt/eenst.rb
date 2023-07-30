@@ -72,12 +72,5 @@ module DT
     def t_log
       @t_log ||= Target::Log.new
     end
-
-    # External dependency.
-    # @return [Pathname]
-    # @note OPTIMIZE: Consider removing.
-    def xd_pathname
-      @xd_pathname ||= Pathname
-    end
   end
 end

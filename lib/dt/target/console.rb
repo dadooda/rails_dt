@@ -6,15 +6,7 @@ module DT; module Target
     # Print a full message.
     # @param [String] fullmsg
     def print(fullmsg)
-      xd_stderr.puts(fullmsg)
-    end
-
-    private
-
-    # External dependency.
-    # @return [IO] +STDERR+.
-    def xd_stderr
-      @xd_stderr ||= STDERR
+      STDERR.puts(fullmsg)
     end
   end
 end; end
