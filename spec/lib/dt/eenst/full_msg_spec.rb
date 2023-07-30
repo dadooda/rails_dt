@@ -30,7 +30,7 @@ module DT; class Eenst
     describe "public methods" do
       subject { obj.public_send(m) }
 
-      describe "#fullmsg" do
+      describe "#formatted" do
         context_when full_loc: "(fl)", loc: "(l)", msg: "(m)" do
           context_when format: "xyz" do
             it { is_expected.to eq "xyz" }
@@ -121,7 +121,7 @@ module DT; class Eenst
         root_path: Pathname("/path/to/project"),
       }) do
         its(:full_loc) { is_expected.to eq "sub/file1.rb:21" }
-        its(:fullmsg) { is_expected.to eq "(DT      sub/file1.rb:21) Hey" }
+        its(:formatted) { is_expected.to eq "(DT      sub/file1.rb:21) Hey" }
       end
     end
   end

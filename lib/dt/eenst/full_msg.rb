@@ -27,8 +27,9 @@ module DT; class Eenst
     # @return [Pathname]
     attr_accessor :root_path
 
+    # The formatted output.
     # @return [String]
-    def fullmsg
+    def formatted
       igetset(__method__) do
         require_attr :format
         format % tokens
@@ -88,7 +89,12 @@ module DT; class Eenst
     # A +%{full_loc}+ message token.
     # @return [String]
     def full_loc
-      igetset(__method__) { "#{file_rel}:#{line}" }
+      igetset(__method__) do
+        require_attr :file_rel
+        require_attr :line
+
+        "#{file_rel}:#{line}"
+      end
     end
 
     # The line part of {#file_line}.
@@ -101,6 +107,7 @@ module DT; class Eenst
     # @return [String]
     def loc
       igetset(__method__) do
+        require_attr :full_loc
         require_attr :loc_length
 
         truncated = full_loc[-(loc_length - 1)..-1]
@@ -117,7 +124,10 @@ module DT; class Eenst
     # An +%{msg}+ message token.
     # @return [String]
     def msg
-      igetset(__method__) { arg.is_a?(String) ? arg : arg.inspect }
+      igetset(__method__) do
+        require_attr :arg
+        arg.is_a?(String) ? arg : arg.inspect
+      end
     end
 
     # A message tokens hash.

@@ -25,21 +25,24 @@ module Feature
   #     end
   #   end
   #
-  # The <tt>begin … end</tt> code will be evaluated every time if the value of computation is <tt>false</tt>.
+  # The <tt>begin … end</tt> code will be evaluated every time if the value of computation is
+  # <tt>false</tt>.
   #
-  # Known solutions to this problem involve calling <tt>instance_variable_*</tt> a few times per attribute accessor.
+  # Known solutions to this problem involve calling <tt>instance_variable_*</tt> a few times per
+  # attribute accessor.
   #
-  # <tt>#igetset</tt> does the job for you. All you have to do is specify a block to compute the value.
+  # <tt>#igetset</tt> does the job for you. All you have to do is specify a block to compute the
+  # value.
   #
   #   igetset(:is_verbose) { ENV["VERBOSE"] == "y" }
   #
   # See {InstanceMethods#igetset}, {InstanceMethods#igetwrite}.
   #
-  # == Require attribute to be set
+  # == Require an attribute to be set
   #
-  # Methods which use other methods to do the computation, can often assist in strengthening the code by declaring
-  # and checking if the dependable value is present or otherwise "good". For this purpose, #require_attr comes in
-  # handy. Say,
+  # Methods which use other methods to do the computation, can often assist in strengthening the
+  # code by declaring and checking if the dependable value is present or otherwise "good". For this
+  # purpose, +#require_attr+ comes in handy. Say,
   #
   #   def full_name
   #     require_attr :first_name
@@ -73,7 +76,8 @@ module Feature
 
     module InstanceMethods
       # Get/set an instance variable on the fly, given its computation block.
-      # @param [String] name
+      # @param [String|Symbol] name
+      # @return [mixed] The result of +compute+.
       # @see #igetwrite
       def igetset(name, &compute)
         if instance_variable_defined?(k = "@#{name}")
@@ -92,6 +96,8 @@ module Feature
       #
       #   @name || self.name = "Joe"
       #
+      # @param [String|Symbol] name
+      # @return [mixed] The result of +compute+.
       # @see #igetset
       def igetwrite(name, &compute)
         if instance_variable_defined?(k = "@#{name}")
@@ -101,7 +107,7 @@ module Feature
         end
       end
 
-      # Require attribute to be set, present, be otherwise "good" or not be otherwise "bad".
+      # Require an attribute to be set, present, be otherwise "good" or not be otherwise "bad".
       #
       #   require_attr(name)                  # Require not to be `nil?`.
       #   require_attr(items, :not_empty?)    # Require not to be `empty?`.
