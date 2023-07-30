@@ -1,7 +1,10 @@
+# frozen_string_literal: true
 
 require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
 require_relative "eenst/full_msg"
+require_relative "eenst/options/fn"
+require_relative "eenst/options/p"
 require_relative "konf"
 require_relative "target/console"
 

@@ -2,16 +2,23 @@
 require "logger"
 require "pathname"
 
+"LODoc"
+
 # Ruby/Rails debug toolkit.
 #
-# Features:
+# = Usage
+#
+#   DT.p "checkpoint 1"
+#   DT.p "user", user
+#
+# = Features
 #
 # * As simple as possible.
 # * Suits Rails projects and stand-alone Ruby projects.
 # * Has none or minimal dependencies.
 # * Compatible with Ruby 1.9 and up.
 #
-# @see DT.p
+# Print a debug messages, dump values etc:
 module DT
   require_relative "dt/config"
   require_relative "dt/instance"
@@ -29,10 +36,6 @@ module DT
       @instance ||= Instance.new
     end
 
-    # Print a debug message, dump values etc.
-    #
-    #   DT.p "checkpoint 1"
-    #   DT.p "user", user
     #
     # @return [nil]
     # @see Instance#_p
