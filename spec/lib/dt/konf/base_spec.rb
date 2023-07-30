@@ -14,11 +14,11 @@ module DT; class Konf
         let_a(:enabled)
 
         context "default" do
-          it { is_expected.to eq true }
+          it { is_expected.to be true }
         end
 
         context_when enabled: false do
-          it { is_expected.to eq false }
+          it { is_expected.to be false }
         end
       end
     end

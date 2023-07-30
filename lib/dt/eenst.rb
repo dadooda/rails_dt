@@ -74,13 +74,8 @@ module DT
     end
 
     # External dependency.
-    # @return [Kernel]
-    def xd_kernel
-      @xd_kernel ||= Kernel
-    end
-
-    # External dependency.
     # @return [Pathname]
+    # @note OPTIMIZE: Consider removing.
     def xd_pathname
       @xd_pathname ||= Pathname
     end

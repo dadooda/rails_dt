@@ -123,6 +123,6 @@ module DT; class Eenst
         its(:full_loc) { is_expected.to eq "sub/file1.rb:21" }
         its(:formatted) { is_expected.to eq "(DT      sub/file1.rb:21) Hey" }
       end
-    end
-  end
+    end # describe "end-to-end"
+  end # describe
 end; end

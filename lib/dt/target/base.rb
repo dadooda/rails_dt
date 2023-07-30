@@ -6,9 +6,9 @@ module DT; module Target
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
+    # Print a full message.
     # @abstract
     # @param [String] fullmsg
-    # @return [nil]
     def print(fullmsg)
       raise NotImplementedError, "Redefine `#{__method__}` in your class: #{self.class}"
     end

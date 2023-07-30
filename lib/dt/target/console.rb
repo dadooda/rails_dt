@@ -3,8 +3,8 @@ require_relative "base"
 
 module DT; module Target
   class Console < Base
+    # Print a full message.
     # @param [String] fullmsg
-    # @return [nil]
     def print(fullmsg)
       xd_stderr.puts(fullmsg)
     end
