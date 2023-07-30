@@ -18,6 +18,25 @@ module DT
       @envi ||= Environment.new
     end
 
+    # TODO: Fin.
+    #
+    # @param [Hash] options Trr-ta, trr-ta.
+    #   Hop hop hop!
+    #     kode kode
+    #
+    # @return [Proc]
+    def fn(options = {})
+      o = Options::Fn.new(options)
+      o.mute and return(->(caller_line, args) {})
+
+      vo = {}
+      vo[:prefix] = o.prefix if o.prefix
+
+      ->(caller_line, args) do
+        do_p(caller_line, args, vo)
+      end
+    end
+
     # @return [Konf]
     def konf
       @konf ||= Konf.new
@@ -26,10 +45,11 @@ module DT
     # Actually print.
     # @param [String] caller_line
     # @param [Array<mixed>] args Messages/values.
+    # @param [Hash] options Attributes for an {Options::P}.
     # @return [nil]
-    def _p(caller_line, *args)
-      raise "iniy"
-
+    def do_p(caller_line, args, options = {})
+      o = Options::P.new(options)
+      args.each { |arg| do_p1(caller_line, arg, o) }
       nil
     end
 
@@ -38,12 +58,14 @@ module DT
     # Print a single message/value to all enabled targets.
     # @param [String] caller_line
     # @param [mixed] arg
-    def _p1(caller_line, arg)
+    # @param [o] Options::P
+    def do_p1(caller_line, arg, o)
       fullmsg = FullMsg.new({
         arg: arg,
         caller_line: caller_line,
         format: konf.format,
         loc_length: konf.loc_length,
+        prefix: o.prefix,
         root_path: envi.root_path,
       }).formatted
 
@@ -70,7 +92,7 @@ module DT
     # The log target.
     # @return [Target::Log]
     def t_log
-      @t_log ||= Target::Log.new
+      @t_log ||= Target::Log.new(root_path: envi.root_path)
     end
   end
 end

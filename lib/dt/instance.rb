@@ -119,6 +119,7 @@ module DT
         end
       end
 
+      # NOTE: It's really possible to call it without args.
       args.each do |arg|
         value = case arg
         when String

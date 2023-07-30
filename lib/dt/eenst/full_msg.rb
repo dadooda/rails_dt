@@ -24,6 +24,11 @@ module DT; class Eenst
     # @return [Fixnum]
     attr_accessor :loc_length
 
+    # An optional prefix to +%{msg}+.
+    # @return [String]
+    # @return [nil]
+    attr_accessor :prefix
+
     # @return [Pathname]
     attr_accessor :root_path
 
@@ -126,7 +131,10 @@ module DT; class Eenst
     def msg
       igetset(__method__) do
         require_attr :arg
-        arg.is_a?(String) ? arg : arg.inspect
+        [
+          prefix,
+          arg.is_a?(String) ? arg : arg.inspect
+        ].compact.join
       end
     end
 
