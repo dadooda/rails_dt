@@ -139,11 +139,5 @@ module DT; class Eenst
         msg: msg,
       }
     end
-
-    # # External dependency.
-    # # @return [Pathname]
-    # def xd_pathname
-    #   @xd_pathname ||= Pathname
-    # end
   end
 end; end
