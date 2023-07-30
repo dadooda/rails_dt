@@ -70,7 +70,7 @@ module DT; class Eenst
         require_attr :root_path
 
         begin
-          xd_pathname.new(file).relative_path_from(root_path).to_s
+          Pathname.new(file).relative_path_from(root_path).to_s
         rescue ArgumentError => e
           # Handle known errors only:
           #
@@ -140,10 +140,10 @@ module DT; class Eenst
       }
     end
 
-    # External dependency.
-    # @return [Pathname]
-    def xd_pathname
-      @xd_pathname ||= Pathname
-    end
+    # # External dependency.
+    # # @return [Pathname]
+    # def xd_pathname
+    #   @xd_pathname ||= Pathname
+    # end
   end
 end; end
