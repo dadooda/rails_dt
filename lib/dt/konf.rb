@@ -40,23 +40,3 @@ module DT
     end
   end
 end
-
-# TODO: CUP.
-
-=begin
-
-target.
-  console.    # Konf::Console
-    enable = true
-  log.
-    enable = true
-  rails
-    enable = true
-
-xx
-
-
-
-
-
-=end
