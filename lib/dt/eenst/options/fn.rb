@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-require_relative "p"
+require_relative "do_p"
 
 module DT; class Eenst; module Options
-  class Fn < P
+  # Validated options for {Eenst#fn}.
+  class Fn < DoP
+    # Set to +true+ to mute all output.
     # @return [Boolean]
     attr_accessor :mute
   end

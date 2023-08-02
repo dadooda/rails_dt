@@ -2,7 +2,9 @@
 require_relative "base"
 
 module DT; class Eenst; module Options
-  class P < Base
+  # Validated options for {Eenst#do_p}.
+  class DoP < Base
+    # The prefix to each output +%{msg}+ token.
     # @return [String]
     attr_accessor :prefix
   end

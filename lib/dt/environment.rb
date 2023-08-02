@@ -78,6 +78,7 @@ module DT
       end
     end
 
+    # TODO: CUP.
     # External dependency.
     # @return [Pathname]
     def xd_pathname

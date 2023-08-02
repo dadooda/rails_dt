@@ -3,8 +3,8 @@
 require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
 require_relative "eenst/full_msg"
+require_relative "eenst/options/do_p"
 require_relative "eenst/options/fn"
-require_relative "eenst/options/p"
 require_relative "konf"
 require_relative "target/console"
 
@@ -14,20 +14,19 @@ module DT
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    attr_writer :envi, :konf
+    # TODO: Fin.
+    # attr_writer :envi, :conf
+    attr_writer :envi
+    attr_accessor :conf
 
     # @return [Environment]
     def envi
       @envi ||= Environment.new
     end
 
-    # TODO: Fin.
-    #
-    # @param [Hash] options Trr-ta, trr-ta.
-    #   Hop hop hop!
-    #     kode kode
-    #
+    # @param [Hash] options Attributes for an {Options::Fn}.
     # @return [Proc]
+    # @note OPTIMIZE: Document this, `Proc` specifically.
     def fn(options = {})
       o = Options::Fn.new(options)
       o.mute and return(->(caller_line, args) {})
@@ -40,34 +39,37 @@ module DT
       end
     end
 
-    # @return [Konf]
-    def konf
-      @konf ||= Konf.new
-    end
+    # TODO: Fin.
+    # # @return [Konf]
+    # def conf
+    #   @conf ||= Konf.new
+    # end
 
     # Actually print.
     # @param [String] caller_line
     # @param [Array<mixed>] args Messages/values.
-    # @param [Hash] options Attributes for an {Options::P}.
+    # @param [Hash] options Attributes for an {Options::DoP}.
     # @return [nil]
     def do_p(caller_line, args, options = {})
-      o = Options::P.new(options)
+      o = Options::DoP.new(options)
       args.each { |arg| do_p1(caller_line, arg, o) }
       nil
     end
 
     private
 
-    # Print a single message/value to all enabled targets.
+    # Print a single message/value.
     # @param [String] caller_line
     # @param [mixed] arg
-    # @param [o] Options::P
+    # @param [Options::DoP] o
     def do_p1(caller_line, arg, o)
+      require_attr :conf
+
       fullmsg = FullMsg.new({
         arg: arg,
         caller_line: caller_line,
-        format: konf.format,
-        loc_length: konf.loc_length,
+        format: conf.format,
+        loc_length: conf.loc_length,
         prefix: o.prefix,
         root_path: envi.root_path,
       }).formatted
@@ -79,11 +81,11 @@ module DT
     # Print to the console target if one is enabled.
     # @param [String] fullmsg
     def print_to_console(fullmsg)
-      t_console.print(fullmsg) if konf.console.enabled
+      t_console.print(fullmsg) if conf.console.enabled
     end
 
     def print_to_log(fullmsg)
-      t_log.print(fullmsg) if konf.log.enabled
+      t_log.print(fullmsg) if conf.log.enabled
     end
 
     # The console target.
