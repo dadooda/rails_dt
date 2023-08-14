@@ -45,6 +45,9 @@ module DY
 
     private
 
+    # TODO: I doubt if we really need writable attrs in a singleton.
+    #       That would indeed screw the tests up.
+
     # @note These are for well-balanced and consistent tests.
     attr_writer :conf, :envi, :instance
 

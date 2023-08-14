@@ -41,7 +41,6 @@ module DT; class Eenst
           end
         end
       end
-
     end # describe "public methods"
 
     describe "private methods" do
@@ -90,6 +89,16 @@ module DT; class Eenst
       end
 
       describe "#msg" do
+        context "when no `arg`" do
+          it do
+            expect { subject }.to raise_error(RuntimeError, "Attribute `arg` must be set")
+          end
+        end
+
+        context_when arg: nil do
+          it { is_expected.to eq "nil" }
+        end
+
         context_when arg: "hey" do
           it { is_expected.to eq "hey" }
         end

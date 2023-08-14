@@ -17,6 +17,8 @@ module DT
     # TODO: Fin.
     # attr_writer :envi, :conf
     attr_writer :envi
+
+    # @return [Konf]
     attr_accessor :conf
 
     # @return [Environment]

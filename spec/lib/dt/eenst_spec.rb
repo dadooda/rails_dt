@@ -8,7 +8,6 @@ module DT
 
     describe "public methods" do
       subject { obj.public_send(m, *(defined?(args) ? args : [])) }
-
     end
 
     describe "function methods" do
@@ -16,6 +15,10 @@ module DT
       subject { obj.send(m, *(defined?(args) ? args : [])) }
 
       describe "#do_p1" do
+        # NOTE: This is highly important. `conf` attribute hasn't got a default,
+        #       but we use values from it here, like `obj.conf.format` and stuff.
+        let_a(:conf) { Konf.new }
+
         context_when args: ["some-caller", "some-arg", described_class::Options::DoP.new(prefix: "pfx")] do
           let(:full_msg) { double("full_msg") }
 

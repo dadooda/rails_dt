@@ -130,7 +130,9 @@ module DT; class Eenst
     # @return [String]
     def msg
       igetset(__method__) do
-        require_attr :arg
+        # TODO: Fin.
+        # require_attr :arg
+        require_arg
         [
           prefix,
           arg.is_a?(String) ? arg : arg.inspect
@@ -146,6 +148,14 @@ module DT; class Eenst
         loc: loc,
         msg: msg,
       }
+    end
+
+    private
+
+    # Require +arg+ instance variable in a special way.
+    # It is allowed to be +nil+, but it must be explicitly given.
+    def require_arg
+      raise "Attribute `arg` must be set" unless instance_variable_defined?(:@arg)
     end
   end
 end; end
