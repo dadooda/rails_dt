@@ -130,8 +130,6 @@ module DT; class Eenst
     # @return [String]
     def msg
       igetset(__method__) do
-        # TODO: Fin.
-        # require_attr :arg
         require_arg
         [
           prefix,
