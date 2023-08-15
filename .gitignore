@@ -3,7 +3,6 @@
 /.bundle/
 /coverage/
 /doc/*
-/.rspec
 /vendor/bundle/
 /.yardoc/
 
@@ -12,7 +11,8 @@
 
 # Project-specific.
 /*.gem
-/Gemfile.lock
+# TODO: Why is this?
+#/Gemfile.lock
 /log/
 
 # Bak/old/orig etc.

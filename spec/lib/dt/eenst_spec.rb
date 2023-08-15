@@ -19,6 +19,10 @@ module DT
         #       but we use values from it here, like `obj.conf.format` and stuff.
         let_a(:conf) { Konf.new }
 
+        context_when conf: nil do
+          pending("TODO")
+        end
+
         context_when args: ["some-caller", "some-arg", described_class::Options::DoP.new(prefix: "pfx")] do
           let(:full_msg) { double("full_msg") }
 
