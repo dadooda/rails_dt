@@ -1,7 +1,7 @@
 
 require_relative "../eenst"
 
-module DT; class Eenst
+module DY; class Eenst
   # A disposable self-formatting full message.
   class FullMsg
     Feature::AttrMagic.load(self)

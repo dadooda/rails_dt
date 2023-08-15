@@ -1,7 +1,7 @@
 
 require_relative "base"
 
-module DT; module Target
+module DY; module Target
   class Log < Base
     # @return [Pathname]
     attr_accessor :root_path

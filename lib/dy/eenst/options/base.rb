@@ -4,7 +4,7 @@ require_relative "../../../../libx/feature/attr_magic"
 require_relative "../../../../libx/feature/initialize"
 require_relative "../../eenst"
 
-module DT; class Eenst; module Options
+module DY; class Eenst; module Options
   class Base
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)

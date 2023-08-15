@@ -8,7 +8,7 @@ require_relative "eenst/options/fn"
 require_relative "konf"
 require_relative "target/console"
 
-module DT
+module DY
   # Main class.
   class Eenst
     Feature::AttrMagic.load(self)

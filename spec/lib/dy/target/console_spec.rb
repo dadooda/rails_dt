@@ -1,5 +1,5 @@
 
-module DT; module Target
+module DY; module Target
   describe Console do
     use_method_discovery :m
 

@@ -1,5 +1,5 @@
 
-module DT; module Target
+module DY; module Target
   describe Log do
     use_letset(:let_a, :attrs)
     use_letset(:let_p, :pattrs)        # Private attributes.

@@ -1,5 +1,5 @@
 
-module DT
+module DY
   describe Environment do
     use_letset(:let_a, :attrs)
     use_method_discovery :m
@@ -40,16 +40,15 @@ module DT
         context "when Rails" do
           it do
             signature = Object.new
-            DT.module_eval { Rails = signature }
+            DY.module_eval { Rails = signature }
             is_expected.to eq signature
-            DT.module_eval { remove_const :Rails rescue nil }
+            DY.module_eval { remove_const :Rails rescue nil }
           end
         end
       end
 
       describe "#root_path" do
         before :each do
-          # OPTIMIZE: Make Dir an XD.
           defined?(dir_pwd) and allow(Dir).to receive(:pwd).and_return(dir_pwd)
           defined?(root_path_of_bundler) and allow(obj).to receive(:root_path_of_bundler).and_return(root_path_of_bundler)
           defined?(root_path_of_rails) and allow(obj).to receive(:root_path_of_rails).and_return(root_path_of_rails)

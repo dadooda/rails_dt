@@ -2,7 +2,7 @@
 
 require_relative "base"
 
-module DT; class Konf
+module DY; class Konf
   # Configuration for the named target.
   class Log < Base
   end

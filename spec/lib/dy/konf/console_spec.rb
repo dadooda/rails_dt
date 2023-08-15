@@ -1,5 +1,5 @@
 
-module DT; class Konf
+module DY; class Konf
   describe Console do
     it "is inherited from `Base`" do
       expect(described_class.superclass).to be Base

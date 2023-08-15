@@ -7,7 +7,7 @@ require_relative "../../libx/feature/initialize"
 
 "LODoc"
 
-module DT
+module DY
   # The environment we run in. Most features are auto-discovered.
   class Environment
     Feature::AttrMagic.load(self)

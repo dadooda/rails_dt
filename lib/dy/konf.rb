@@ -4,7 +4,7 @@ require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
 require_relative "konf/console"
 
-module DT
+module DY
   # The configuration object.
   class Konf
     Feature::AttrMagic.load(self)

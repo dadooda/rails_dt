@@ -1,7 +1,7 @@
 
 require_relative "base"
 
-module DT; class Eenst; module Options
+module DY; class Eenst; module Options
   # Validated options for {Eenst#do_p}.
   class DoP < Base
     # The prefix to each output +%{msg}+ token.

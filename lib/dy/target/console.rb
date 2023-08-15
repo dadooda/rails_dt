@@ -2,7 +2,7 @@
 
 require_relative "base"
 
-module DT; module Target
+module DY; module Target
   class Console < Base
     # Print a full message.
     # @param [String] fullmsg

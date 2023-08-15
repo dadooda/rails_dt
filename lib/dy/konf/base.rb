@@ -2,7 +2,7 @@
 
 require_relative "../konf"
 
-module DT; class Konf
+module DY; class Konf
   # @note OPTIMIZE: Document this. A funny case of a LODoc of a base class.
   class Base
     Feature::AttrMagic.load(self)
