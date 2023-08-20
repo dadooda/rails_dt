@@ -42,6 +42,14 @@ module DY
     #   end
     # end
 
+    # Path to current working directory as per +Dir.pwd+.
+    # @return [String]
+    def pwd
+      igetset(__method__) do
+        Dir.pwd
+      end
+    end
+
     # Top-level Rails module, if any.
     # @return [Module] +Rails+.
     # @return [nil]
@@ -63,7 +71,7 @@ module DY
     # @return [Pathname]
     def root_path
       igetset(__method__) do
-        s = root_path_of_rails || root_path_of_bundler || Dir.pwd
+        s = root_path_of_rails || root_path_of_bundler || pwd
         begin
           # TODO: Get rid of `xd_*`.
           xd_pathname.new(s).realpath
@@ -76,7 +84,7 @@ module DY
     private
 
     # @note These are for well-balanced and consistent tests.
-    attr_writer :gemfile, :rails, :root_path_of_bundler, :root_path_of_rails
+    attr_writer :gemfile, :pwd, :rails, :root_path, :root_path_of_bundler, :root_path_of_rails
 
     # TODO: Fin.
     # attr_writer :is_rails
