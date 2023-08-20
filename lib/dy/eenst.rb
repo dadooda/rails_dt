@@ -2,10 +2,10 @@
 
 require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
+require_relative "config"
 require_relative "eenst/full_msg"
 require_relative "eenst/options/do_p"
 require_relative "eenst/options/fn"
-require_relative "konf"
 require_relative "target/console"
 
 module DY
@@ -18,7 +18,7 @@ module DY
     # attr_writer :envi, :conf
     attr_writer :envi
 
-    # @return [Konf]
+    # @return [Config]
     attr_accessor :conf
 
     # @return [Environment]
@@ -40,12 +40,6 @@ module DY
         do_p(caller_line, args, vo)
       end
     end
-
-    # TODO: Fin.
-    # # @return [Konf]
-    # def conf
-    #   @conf ||= Konf.new
-    # end
 
     # Actually print.
     # @param [String] caller_line

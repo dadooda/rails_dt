@@ -1,28 +1,21 @@
 
+require_relative "dy/config"
 require_relative "dy/eenst"
-require_relative "dy/konf"
 
 # Alternative drop-in new module.
 #
 # «Y» is on the right of «T» on the keyboard. 😊
 module DY
   class << self
-    # @return [Konf]
+    # @return [Config]
     def conf
-      @conf ||= Konf.new
+      @conf ||= Config.new
     end
 
     # OPTIMIZE: Make a synthetic object clearly listing enabled targets.
     #   `def targets` or something.
     #   `def target_info` or something. With paths.
     #   The user might be interested in why aren't we logging.
-
-    # TODO: Fin.
-    # # Auto-discovered environment for diagnostic purposes.
-    # # @return [DT::Environment]
-    # def envi
-    #   @envi ||= instance.envi
-    # end
 
     # TODO: Based on LODoc we must give concrete real-life examples.
     # @param [Hash] options Attributes for an {DT::Eenst::Options::Fn}.
@@ -47,9 +40,11 @@ module DY
 
     # TODO: I doubt if we really need writable attrs in a singleton.
     #       That would indeed screw the tests up.
+    #       Try to go without them for now.
+    #       TODO: Fin.
 
     # @note These are for well-balanced and consistent tests.
-    attr_writer :conf, :envi, :instance
+    #attr_writer :conf, :envi, :instance
 
     # @return [Eenst]
     def instance

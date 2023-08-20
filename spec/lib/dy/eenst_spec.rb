@@ -17,7 +17,7 @@ module DY
       describe "#do_p1" do
         # NOTE: This is highly important. `conf` attribute hasn't got a default,
         #       but we use values from it here, like `obj.conf.format` and stuff.
-        let_a(:conf) { Konf.new }
+        let_a(:conf) { Config.new }
 
         context_when conf: nil do
           pending("TODO")

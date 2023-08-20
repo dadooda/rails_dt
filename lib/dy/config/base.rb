@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../konf"
+require_relative "../config"
 
-module DY; class Konf
+module DY; class Config
   # @note OPTIMIZE: Document this. A funny case of a LODoc of a base class.
   class Base
     Feature::AttrMagic.load(self)

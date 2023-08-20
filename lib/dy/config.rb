@@ -2,11 +2,11 @@
 
 require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
-require_relative "konf/console"
+require_relative "config/console"
 
 module DY
   # The configuration object.
-  class Konf
+  class Config
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 

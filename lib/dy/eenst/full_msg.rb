@@ -17,7 +17,7 @@ module DY; class Eenst
 
     # Message format.
     # @return [String]
-    # @see Konf#format
+    # @see Config#format
     attr_accessor :format
 
     # Length limit for the +%{loc}+ token.

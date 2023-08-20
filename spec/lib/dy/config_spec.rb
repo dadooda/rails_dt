@@ -1,6 +1,6 @@
 
 module DY
-  describe Konf do
+  describe Config do
     use_letset(:let_a, :attrs)
     use_method_discovery :m
 

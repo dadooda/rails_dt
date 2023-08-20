@@ -1,5 +1,5 @@
 
-module DY; class Konf
+module DY; class Config
   describe Base do
     use_letset(:let_a, :attrs)
     use_method_discovery :m
