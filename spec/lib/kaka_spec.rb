@@ -3,8 +3,12 @@
 
 module DT
   describe do
+    let(:rails) { double "rails" }
+
     it "`Target::Rails`" do
-      trg = DY::Target::Rails.new
+      allow(rails).to receive(:logger).and_return(Logger.new(STDOUT))
+
+      trg = DY::Target::Rails.new(rails: rails)
       trg.print("hehe")
     end
 

@@ -2,22 +2,41 @@
 module DY
   describe Instance do
     use_letset(:let_a, :attrs)
+    use_letset(:let_p, :pattrs)
     use_method_discovery :m
 
-    let(:obj) { described_class.new(attrs) }
+    let_a(:conf)
 
-    describe "public methods" do
-      subject { obj.public_send(m, *(defined?(args) ? args : [])) }
+    let_p(:envi)
+
+    let(:obj) do
+      described_class.new(attrs).tap do |_|
+        pattrs.each { |k, v| _.send("#{k}=", v) }
+      end
     end
 
-    describe "function methods" do
+    describe "public methods" do
+      subject { obj.send(m, *(defined?(args) ? args : [])) }
+
+      describe "#envi" do
+        pending("TODO")
+      end
+    end
+
+    describe "private methods" do
       # NOTE: At least some of the function methods are usually private.
       subject { obj.send(m, *(defined?(args) ? args : [])) }
+
+
+      # TODO: Organize.
+      describe "#t_rails" do
+        pending("STOPPED HERE")
+      end
 
       describe "#do_p1" do
         # NOTE: This is highly important. `conf` attribute hasn't got a default,
         #       but we use values from it here, like `obj.conf.format` and stuff.
-        let_a(:conf) { Config.new }
+        let(:conf) { Config.new }
 
         context_when conf: nil do
           pending("TODO")

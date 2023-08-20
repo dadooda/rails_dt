@@ -13,7 +13,8 @@ module DY
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    attr_writer :env
+    # TODO: Fin.
+    # attr_writer :env
 
     # A path to +Gemfile+, if present in <tt>env["BUNDLE_GEMFILE"]</tt>.
     # @return [String]
@@ -31,17 +32,6 @@ module DY
       @env ||= ENV.to_h
     end
 
-    # TODO: Fin.
-
-    # # @return [Boolean]
-    # def rails?
-    #   igetset(:is_rails) do
-    #     !!rails
-    #     # NOTE: We look up relative name to allow for smart testing.
-    #     !!defined?(Rails)
-    #   end
-    # end
-
     # Path to current working directory as per +Dir.pwd+.
     # @return [String]
     def pwd
@@ -50,12 +40,14 @@ module DY
       end
     end
 
-    # Top-level Rails module, if any.
+    # Top-level Rails module, if one is available.
     # @return [Module] +Rails+.
     # @return [nil]
     def rails
-      # NOTE: In our case `Rails` isn't just an external dependency,
-      #       but a part of the public interface. We use it for both
+      # Two ways to use this method:
+      #
+      # 1. As an optional external dependency.
+      # 2. As an environment indicator.
       igetset(__method__) do
         # NOTE: We look up relative name to allow for smart testing.
         Rails if defined? Rails
@@ -83,11 +75,10 @@ module DY
 
     private
 
-    # @note These are for well-balanced and consistent tests.
-    attr_writer :gemfile, :pwd, :rails, :root_path, :root_path_of_bundler, :root_path_of_rails
+    # TODO: Retro-fix siblings. Consistent doc comment below.
 
-    # TODO: Fin.
-    # attr_writer :is_rails
+    # A private attribute for well-balanced tests.
+    attr_writer :env, :gemfile, :pwd, :rails, :root_path, :root_path_of_bundler, :root_path_of_rails
 
     # @return [String]
     # @return [nil]
@@ -104,15 +95,6 @@ module DY
         rails.root.to_s if rails
       end
     end
-
-    # TODO: Fin.
-    # @return [String]
-    # @return [nil]
-    # def root_path_of_rails_G
-    #   igetset(__method__) do
-    #     Rails.root.to_s if rails?
-    #   end
-    # end
 
     # TODO: CUP.
     # External dependency.

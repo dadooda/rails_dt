@@ -15,14 +15,17 @@ module DY
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    attr_writer :envi
+    # OPTIMIZE: Consider making a private attribute.
+
+    # TODO: Fin.
+    # attr_writer :envi
 
     # @return [Config]
     attr_accessor :conf
 
     # @return [Environment]
     def envi
-      @envi ||= Environment.new
+      igetset(__method__) { Environment.new }
     end
 
     # @param [Hash] options Attributes for an {Options::Fn}.
@@ -52,6 +55,9 @@ module DY
     end
 
     private
+
+    # A private attribute for well-balanced tests.
+    attr_writer :envi, :t_console, :t_log, :t_rails
 
     # Print a single message/value.
     # @param [String] caller_line
@@ -84,26 +90,32 @@ module DY
       t_log.print(fullmsg) if conf.log.enabled
     end
 
+    # OPTIMIZE: Consider creating targets conditionally.
+    #           The example is `t_rails`.
+
     def print_to_rails(fullmsg)
-      t_rails.print(fullmsg) if conf.rails.enabled
+      t_rails.print(fullmsg) if t_rails
     end
 
     # The console target.
     # @return [Target::Console]
     def t_console
-      @t_console ||= Target::Console.new
+      igetset(__method__) { Target::Console.new }
     end
 
     # The log target.
     # @return [Target::Log]
     def t_log
-      @t_log ||= Target::Log.new(root_path: envi.root_path)
+      igetset(__method__) { Target::Log.new(root_path: envi.root_path) }
     end
 
     # The Rails target.
     # @return [Target::Rails]
+    # @return [nil]
     def t_rails
-      @t_rails ||= Target::Rails.new
+      igetset(__method__) do
+        Target::Rails.new(rails: envi.rails) if conf.rails.enabled && envi.rails
+      end
     end
   end
 end
