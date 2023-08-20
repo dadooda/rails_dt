@@ -1,7 +1,7 @@
 
-require_relative "../eenst"
+require_relative "../instance"
 
-module DY; class Eenst
+module DY; class Instance
   # A disposable self-formatting full message.
   class FullMsg
     Feature::AttrMagic.load(self)

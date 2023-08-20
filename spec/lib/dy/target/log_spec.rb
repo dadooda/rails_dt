@@ -2,7 +2,7 @@
 module DY; module Target
   describe Log do
     use_letset(:let_a, :attrs)
-    use_letset(:let_p, :pattrs)        # Private attributes.
+    use_letset(:let_p, :pattrs)
     use_method_discovery :m
 
     let_a(:root_path)

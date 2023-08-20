@@ -3,19 +3,18 @@
 require_relative "../../libx/feature/attr_magic"
 require_relative "../../libx/feature/initialize"
 require_relative "config"
-require_relative "eenst/full_msg"
-require_relative "eenst/options/do_p"
-require_relative "eenst/options/fn"
+require_relative "instance/full_msg"
+require_relative "instance/options/do_p"
+require_relative "instance/options/fn"
 require_relative "target/console"
 
 module DY
-  # Main class.
-  class Eenst
+  # Main class. Singleton module creates its instance under the hood and delegates
+  # methods like {DY.p} and {DY.fn} to this instance.
+  class Instance
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    # TODO: Fin.
-    # attr_writer :envi, :conf
     attr_writer :envi
 
     # @return [Config]
@@ -72,6 +71,7 @@ module DY
 
       print_to_console(fullmsg)
       print_to_log(fullmsg)
+      print_to_rails(fullmsg)
     end
 
     # Print to the console target if one is enabled.
@@ -84,6 +84,10 @@ module DY
       t_log.print(fullmsg) if conf.log.enabled
     end
 
+    def print_to_rails(fullmsg)
+      t_rails.print(fullmsg) if conf.rails.enabled
+    end
+
     # The console target.
     # @return [Target::Console]
     def t_console
@@ -94,6 +98,12 @@ module DY
     # @return [Target::Log]
     def t_log
       @t_log ||= Target::Log.new(root_path: envi.root_path)
+    end
+
+    # The Rails target.
+    # @return [Target::Rails]
+    def t_rails
+      @t_rails ||= Target::Rails.new
     end
   end
 end

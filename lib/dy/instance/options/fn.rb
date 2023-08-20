@@ -2,8 +2,8 @@
 
 require_relative "do_p"
 
-module DY; class Eenst; module Options
-  # Validated options for {Eenst#fn}.
+module DY; class Instance; module Options
+  # Validated options for {Instance#fn}.
   class Fn < DoP
     # Set to +true+ to mute all output.
     # @return [Boolean]

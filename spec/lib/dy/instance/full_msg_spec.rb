@@ -1,5 +1,5 @@
 
-module DY; class Eenst
+module DY; class Instance
   describe FullMsg do
     use_letset(:let_a, :attrs)
     use_letset(:let_p, :pattrs)        # Private attributes.

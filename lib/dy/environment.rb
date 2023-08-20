@@ -31,11 +31,23 @@ module DY
       @env ||= ENV.to_h
     end
 
+    # TODO: Fin.
+
+    # # @return [Boolean]
+    # def rails?
+    #   igetset(:is_rails) do
+    #     !!rails
+    #     # NOTE: We look up relative name to allow for smart testing.
+    #     !!defined?(Rails)
+    #   end
+    # end
+
     # Top-level Rails module, if any.
     # @return [Module] +Rails+.
     # @return [nil]
     def rails
-      # NOTE: In our case `Rails` isn't just an external dependency, but a part of the public interface.
+      # NOTE: In our case `Rails` isn't just an external dependency,
+      #       but a part of the public interface. We use it for both
       igetset(__method__) do
         # NOTE: We look up relative name to allow for smart testing.
         Rails if defined? Rails
@@ -53,6 +65,7 @@ module DY
       igetset(__method__) do
         s = root_path_of_rails || root_path_of_bundler || Dir.pwd
         begin
+          # TODO: Get rid of `xd_*`.
           xd_pathname.new(s).realpath
         rescue Errno::ENOENT
           xd_pathname.new(s)
@@ -61,6 +74,12 @@ module DY
     end
 
     private
+
+    # @note These are for well-balanced and consistent tests.
+    attr_writer :gemfile, :rails, :root_path_of_bundler, :root_path_of_rails
+
+    # TODO: Fin.
+    # attr_writer :is_rails
 
     # @return [String]
     # @return [nil]
@@ -77,6 +96,15 @@ module DY
         rails.root.to_s if rails
       end
     end
+
+    # TODO: Fin.
+    # @return [String]
+    # @return [nil]
+    # def root_path_of_rails_G
+    #   igetset(__method__) do
+    #     Rails.root.to_s if rails?
+    #   end
+    # end
 
     # TODO: CUP.
     # External dependency.

@@ -3,7 +3,12 @@
 
 module DT
   describe do
-    it "`DY`" do
+    it "`Target::Rails`" do
+      trg = DY::Target::Rails.new
+      trg.print("hehe")
+    end
+
+    xit "`DY`" do
       p "DY.conf", DY.conf
       p "DY.conf.console", DY.conf.console
       # DY.conf.console.disable
@@ -20,12 +25,12 @@ module DT
         # shit: "meet!",
         prefix: "fuefix!",
       }
-      o = Eenst::Options::DoP.new(options)
+      o = Instance::Options::DoP.new(options)
       p "o.prefix", o.prefix
     end
 
-    xit "Eenst#fn" do
-      ee = Eenst.new
+    xit "Instance#fn" do
+      ee = Instance.new
       # ee.do_p("some-caller", ["Joe", 21], prefix: "goy! ")
       # dt = ee.fn(mute: true)
       # dt = ee.fn(prefix: "kk(): ")

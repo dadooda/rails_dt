@@ -1,8 +1,8 @@
 
 require_relative "dy/config"
-require_relative "dy/eenst"
+require_relative "dy/instance"
 
-# Alternative drop-in new module.
+# Alternative drop-in module with new functionality.
 #
 # «Y» is on the right of «T» on the keyboard. 😊
 module DY
@@ -18,7 +18,7 @@ module DY
     #   The user might be interested in why aren't we logging.
 
     # TODO: Based on LODoc we must give concrete real-life examples.
-    # @param [Hash] options Attributes for an {DT::Eenst::Options::Fn}.
+    # @param [Hash] options Attributes for an {DY::Instance::Options::Fn}.
     # @return [Proc]
     # @note OPTIMIZE: Document `Proc` and everything.
     def fn(options = {})
@@ -46,9 +46,9 @@ module DY
     # @note These are for well-balanced and consistent tests.
     #attr_writer :conf, :envi, :instance
 
-    # @return [Eenst]
+    # @return [Instance]
     def instance
-      @instance ||= Eenst.new(conf: conf)
+      @instance ||= Instance.new(conf: conf)
     end
   end # class << self
 end
