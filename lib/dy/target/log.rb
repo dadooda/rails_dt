@@ -15,7 +15,7 @@ module DY; module Target
 
     private
 
-    # @note These are for well-balanced and consistent tests.
+    # A private attribute for well-balanced tests.
     attr_writer :formatter, :logger, :relative_filename
 
     # @return [Proc]

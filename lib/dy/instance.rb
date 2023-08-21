@@ -15,11 +15,6 @@ module DY
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    # OPTIMIZE: Consider making a private attribute.
-
-    # TODO: Fin.
-    # attr_writer :envi
-
     # @return [Config]
     attr_accessor :conf
 
@@ -80,42 +75,42 @@ module DY
       print_to_rails(fullmsg)
     end
 
-    # Print to the console target if one is enabled.
+    # Print to the named target if one is enabled.
     # @param [String] fullmsg
     def print_to_console(fullmsg)
-      t_console.print(fullmsg) if t_console
+      t_console.print(fullmsg) if conf.console.enabled
     end
 
+    # Print to the named target if one is enabled.
+    # @param [String] fullmsg
     def print_to_log(fullmsg)
-      t_log.print(fullmsg) if t_log
+      t_log.print(fullmsg) if conf.log.enabled
     end
 
-    # OPTIMIZE: Consider creating targets conditionally.
-    #           The example is `t_rails`.
-
+    # Print to the named target if one is enabled.
+    # @param [String] fullmsg
     def print_to_rails(fullmsg)
-      t_rails.print(fullmsg) if t_rails
+      p "-- ptr(): conf.rails.enabled", conf.rails.enabled
+      t_rails.print(fullmsg) if conf.rails.enabled && t_rails
     end
 
     # The console target.
     # @return [Target::Console]
     def t_console
-      igetset(__method__) { Target::Console.new if conf.console.enabled }
+      igetset(__method__) { Target::Console.new }
     end
 
     # The log target.
     # @return [Target::Log]
     def t_log
-      igetset(__method__) { Target::Log.new(root_path: envi.root_path) if conf.log.enabled }
+      igetset(__method__) { Target::Log.new(root_path: envi.root_path) }
     end
 
     # The Rails target.
     # @return [Target::Rails]
     # @return [nil]
     def t_rails
-      igetset(__method__) do
-        Target::Rails.new(rails: envi.rails) if conf.rails.enabled && envi.rails
-      end
+      igetset(__method__) { Target::Rails.new(rails: envi.rails) if envi.rails }
     end
   end
 end

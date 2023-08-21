@@ -50,7 +50,7 @@ module DY
 
         context "when Rails" do
           it do
-            signature = Object.new
+            signature = double "Rails"
             DY.module_eval { Rails = signature }
             is_expected.to eq signature
             DY.module_eval { remove_const :Rails rescue nil }

@@ -11,12 +11,12 @@ module DY; class Config
     attr_writer :enabled
 
     # Disable the target.
-    def disable
+    def disable!
       self.enabled = false
     end
 
     # Enable the target.
-    def enable
+    def enable!
       self.enabled = true
     end
 
