@@ -212,6 +212,31 @@ module DY
       end # describe "#t_*"
     end # describe "private methods"
 
-    # OPTIMIZE: A few sporadic end-to-end tests once everything settles nicely.
+    describe "end-to-end", focus: true do
+      describe "disable a target in the middle" do
+        let(:conf) { Config.new }
+        let(:t_console) { double "t_console" }
+        let(:t_log) { double "t_log" }
+
+        def call
+          obj.send(:do_p1, "some-caller", "some-arg", described_class::Options::DoP.new)
+        end
+
+        it "generally works" do
+          match_fullmsg = ->(arg) { expect(arg).to match /some-caller.+some-arg/ }
+
+          obj.conf.rails.disable!
+
+          expect(t_console).to receive(:print).once(&match_fullmsg)
+          expect(t_log).to receive(:print).once(&match_fullmsg)
+          call
+
+          conf.console.disable!
+          expect(t_console).not_to receive(:print)
+          expect(t_log).to receive(:print).once(&match_fullmsg)
+          call
+        end
+      end
+    end
   end # describe
 end

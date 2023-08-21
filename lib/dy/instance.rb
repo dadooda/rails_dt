@@ -90,7 +90,6 @@ module DY
     # Print to the named target if one is enabled.
     # @param [String] fullmsg
     def print_to_rails(fullmsg)
-      p "-- ptr(): conf.rails.enabled", conf.rails.enabled
       t_rails.print(fullmsg) if conf.rails.enabled && t_rails
     end
 
