@@ -83,11 +83,11 @@ module DY
     # Print to the console target if one is enabled.
     # @param [String] fullmsg
     def print_to_console(fullmsg)
-      t_console.print(fullmsg) if conf.console.enabled
+      t_console.print(fullmsg) if t_console
     end
 
     def print_to_log(fullmsg)
-      t_log.print(fullmsg) if conf.log.enabled
+      t_log.print(fullmsg) if t_log
     end
 
     # OPTIMIZE: Consider creating targets conditionally.
@@ -100,13 +100,13 @@ module DY
     # The console target.
     # @return [Target::Console]
     def t_console
-      igetset(__method__) { Target::Console.new }
+      igetset(__method__) { Target::Console.new if conf.console.enabled }
     end
 
     # The log target.
     # @return [Target::Log]
     def t_log
-      igetset(__method__) { Target::Log.new(root_path: envi.root_path) }
+      igetset(__method__) { Target::Log.new(root_path: envi.root_path) if conf.log.enabled }
     end
 
     # The Rails target.
