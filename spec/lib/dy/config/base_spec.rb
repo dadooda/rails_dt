@@ -1,7 +1,8 @@
 
 module DY; class Config
   describe Base do
-    use_letset(:let_a, :attrs)
+    # OPTIMIZE: Use this consistent form for declarations.
+    use_letset :let_a, :attrs
     use_method_discovery :m
 
     let_a(:enabled)

@@ -77,7 +77,7 @@ module DY
         end
       end
 
-      describe "#print_to_*", focus: true do
+      describe "#print_to_*" do
         let(:args) { ["full_message"] }
         let(:conf) { double "conf" }
         let(:conf_console) { double "conf.console" }
@@ -166,7 +166,7 @@ module DY
         end # describe "#print_to_rails"
       end # describe "`print_to_*`"
 
-      describe "#t_*", focus: true do
+      describe "#t_*" do
         let(:conf) { double "conf" }
         let(:conf_console) { double "conf.console" }
         let(:conf_log) { double "conf.log" }
@@ -212,7 +212,7 @@ module DY
       end # describe "#t_*"
     end # describe "private methods"
 
-    describe "end-to-end", focus: true do
+    describe "end-to-end" do
       describe "disable a target in the middle" do
         let(:conf) { Config.new }
         let(:t_console) { double "t_console" }

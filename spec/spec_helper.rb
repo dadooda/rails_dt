@@ -1,9 +1,6 @@
 
-# Must go before all. See https://github.com/simplecov-ruby/simplecov#getting-started.
-require "simplecov"
-SimpleCov.start do
-  add_filter "spec/"
-end
+# Must go before all.
+require_relative "support/simplecov"
 
 # Self.
 require "rails_dt"

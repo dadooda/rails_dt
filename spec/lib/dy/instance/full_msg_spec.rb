@@ -60,6 +60,13 @@ module DY; class Instance
         context_when root_path: Pathname("/some/path") do
           context_when file_line: ["just_a_file.rb", "?"] do
             it { is_expected.to eq "just_a_file.rb" }
+
+            context "when unknown `Pathname` exception" do
+              it do
+                expect(Pathname).to receive(:new).and_raise(ArgumentError, "other error")
+                expect { subject }.to raise_error(ArgumentError, "other error")
+              end
+            end
           end
 
           context_when file_line: ["/some/path/to/file.rb", "?"] do

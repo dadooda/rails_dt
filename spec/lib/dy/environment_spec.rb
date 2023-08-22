@@ -58,7 +58,7 @@ module DY
         end
       end
 
-      describe "#root_path", focus: true do
+      describe "#root_path" do
         context_when pwd: "/some/path", root_path_of_bundler: nil, root_path_of_rails: nil do
           it { is_expected.to eq Pathname(pwd) }
 
