@@ -17,10 +17,9 @@ module DY
     #   `def target_info` or something. With paths.
     #   The user might be interested in why aren't we logging.
 
-    # TODO: Based on LODoc we must give concrete real-life examples.
+    # OPTIMIZE: Based on LODoc we must give concrete real-life examples. `Proc` and everything.
     # @param [Hash] options Attributes for an {DY::Instance::Options::Fn}.
     # @return [Proc]
-    # @note OPTIMIZE: Document `Proc` and everything.
     def fn(options = {})
       ifn = instance.fn(options)
 
@@ -37,14 +36,6 @@ module DY
     end
 
     private
-
-    # TODO: I doubt if we really need writable attrs in a singleton.
-    #       That would indeed screw the tests up.
-    #       Try to go without them for now.
-    #       TODO: Fin.
-
-    # @note These are for well-balanced and consistent tests.
-    #attr_writer :conf, :envi, :instance
 
     # @return [Instance]
     def instance

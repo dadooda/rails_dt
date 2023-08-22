@@ -8,10 +8,5 @@ group :development do
   gem "its"
   gem "rspec"
   gem "simplecov", require: false
-
-  # YARD and friends.
-  # TODO: Fin.
-  # gem "rdoc"
-  # gem "redcarpet"
   gem "yard"
 end

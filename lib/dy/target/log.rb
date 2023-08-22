@@ -18,8 +18,8 @@ module DY; module Target
     # A private attribute for well-balanced tests.
     attr_writer :formatter, :logger, :relative_filename
 
+    # OPTIMIZE: Document this consistently.
     # @return [Proc]
-    # @note OPTIMIZE: Document this consistently.
     def formatter
       igetset(__method__) do
         ->(severity, time, progname, msg) do

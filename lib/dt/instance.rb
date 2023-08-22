@@ -24,12 +24,12 @@ module DT
     # File logger, an instance of Ruby's <tt>Logger</tt>.
     # @return [Logger] Default is a <tt>Logger</tt> writing to <tt>log/dt.log</tt>.
     def dt_logger
-      # TODO: Fin.
+      # TxODO: Fin.
       igetset(:dt_logger) do
         begin
-          # OPTIMIZE: Make configurable.
+          # OxPTIMIZE: Make configurable.
           Logger.new(conf.root_path + "log/dt.log").tap do |_|
-            # TODO: Fin. Make configurable. See dlogger for tokenized format.
+            # TxODO: Fin. Make configurable. See dlogger for tokenized format.
             _.formatter = proc do |severity, time, progname, msg|
               "#{time.strftime('%Y-%m-%d %H:%M:%S')} #{msg}\n"
             end
@@ -79,9 +79,9 @@ module DT
 
     #--------------------------------------- Actions
 
-    # TODO: Make line component computations separate testable classes.
+    # TxODO: Make line component computations separate testable classes.
 
-    # TODO: Make it `p`, what the heck?
+    # TxODO: Make it `p`, what the heck?
     #
     # Lower level implementation of <tt>p</tt>.
     #
@@ -93,7 +93,7 @@ module DT
     # @return nil
     # @see DT.p
     def _p(caller, *args)
-      # TODO: Fin.
+      # TxODO: Fin.
       limit = 30
 
       file, line = caller[0].split(":")
@@ -107,7 +107,7 @@ module DT
 
       loc = "#{file_rel}:#{line}"
 
-      # TODO: Fin.
+      # TxODO: Fin.
       if defined? limit
         trunc = loc[-(limit - 1)..-1]
         if trunc
@@ -128,8 +128,8 @@ module DT
           arg.inspect
         end
 
-        # OPTIMIZE: Make configurable.
-        # TODO: Fin.
+        # OxPTIMIZE: Make configurable.
+        # TxODO: Fin.
         msg = "[DT #{loc}] #{value}"
 
         # Fire!

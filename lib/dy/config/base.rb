@@ -3,7 +3,7 @@
 require_relative "../config"
 
 module DY; class Config
-  # @note OPTIMIZE: Document this. A funny case of a LODoc of a base class.
+  # OPTIMIZE: Document this. A funny case of a LODoc of a base class.
   class Base
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)

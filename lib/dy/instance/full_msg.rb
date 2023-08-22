@@ -43,7 +43,7 @@ module DY; class Instance
 
     private
 
-    # @note These are for well-balanced and consistent tests.
+    # A private attribute for well-balanced tests.
     attr_writer :file, :file_line, :file_rel, :full_loc, :line, :loc, :msg
 
     # The file part of {#file_line}.

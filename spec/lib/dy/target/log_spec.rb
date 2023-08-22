@@ -40,25 +40,10 @@ module DY; module Target
           end
         end
       end
+
       describe "#relative_filename" do
         it { is_expected.to eq "log/dt.log" }
       end
     end # describe "private methods"
-
-    # TODO: Fin. Real end-to-end isn't possible.
-    # describe "end-to-end" do
-    #   let(:fullmsg) { "Hey" }
-    #   let_p(:logger) { double("logger") }
-
-    #   context_when({
-    #     root_path: Pathname("/some/path"),
-
-    #   }) do
-    #     it "generally works" do
-    #       # expect(Logger).to receive(:new).with("kkk").and_return logger
-    #       obj.print(fullmsg)
-    #     end
-    #   end
-    # end # describe "end-to-end"
   end # describe
 end; end

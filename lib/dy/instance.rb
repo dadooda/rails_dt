@@ -23,9 +23,9 @@ module DY
       igetset(__method__) { Environment.new }
     end
 
+    # OPTIMIZE: Document this, `Proc` specifically.
     # @param [Hash] options Attributes for an {Options::Fn}.
     # @return [Proc]
-    # @note OPTIMIZE: Document this, `Proc` specifically.
     def fn(options = {})
       o = Options::Fn.new(options)
       o.mute and return(->(caller_line, args) {})
@@ -48,6 +48,11 @@ module DY
       args.each { |arg| do_p1(caller_line, arg, o) }
       nil
     end
+
+    # OPTIMIZE: Implement this. Along with private methods like `console?` etc.
+    # def targets
+    #   [:kk, :mkk]
+    # end
 
     private
 

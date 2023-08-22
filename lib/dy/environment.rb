@@ -13,9 +13,6 @@ module DY
     Feature::AttrMagic.load(self)
     Feature::Initialize.load(self)
 
-    # TODO: Fin.
-    # attr_writer :env
-
     # A path to +Gemfile+, if present in <tt>env["BUNDLE_GEMFILE"]</tt>.
     # @return [String]
     # @return [nil]
@@ -29,15 +26,13 @@ module DY
     # A copy of +ENV+ for value-reading purposes.
     # @return [Hash] <i>(defaults to: +ENV.to_h+)</i>
     def env
-      @env ||= ENV.to_h
+      igetset(__method__) { ENV.to_h }
     end
 
     # Path to current working directory as per +Dir.pwd+.
     # @return [String]
     def pwd
-      igetset(__method__) do
-        Dir.pwd
-      end
+      igetset(__method__) { Dir.pwd }
     end
 
     # Top-level Rails module, if one is available.
@@ -65,17 +60,14 @@ module DY
       igetset(__method__) do
         s = root_path_of_rails || root_path_of_bundler || pwd
         begin
-          # TODO: Get rid of `xd_*`.
-          xd_pathname.new(s).realpath
+          Pathname.new(s).realpath
         rescue Errno::ENOENT
-          xd_pathname.new(s)
+          Pathname.new(s)
         end
       end
     end
 
     private
-
-    # TODO: Retro-fix siblings. Consistent doc comment below.
 
     # A private attribute for well-balanced tests.
     attr_writer :env, :gemfile, :pwd, :rails, :root_path, :root_path_of_bundler, :root_path_of_rails
@@ -94,13 +86,6 @@ module DY
       igetset(__method__) do
         rails.root.to_s if rails
       end
-    end
-
-    # TODO: CUP.
-    # External dependency.
-    # @return [Pathname]
-    def xd_pathname
-      @xd_pathname ||= Pathname
     end
   end # Environment
 end
