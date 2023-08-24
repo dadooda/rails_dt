@@ -56,7 +56,7 @@ module RSpecMagic
         (mat[1] || mat[2]).to_sym
       end
     end
-  end
+  end # module
 
   # Activate.
   defined?(RSpec) and RSpec.configure do |config|

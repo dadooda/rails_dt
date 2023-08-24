@@ -49,10 +49,16 @@ module DY
       nil
     end
 
-    # OPTIMIZE: Implement this. Along with private methods like `console?` etc.
-    # def targets
-    #   [:kk, :mkk]
-    # end
+    # Return active targets.
+    #
+    #   targets   # => [:console, :log]
+    #
+    # @return [Array<Symbol>]
+    def targets
+      [
+        (:console if conf.console.enabled),
+      ].compact
+    end
 
     private
 

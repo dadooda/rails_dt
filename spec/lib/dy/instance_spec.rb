@@ -1,6 +1,14 @@
 
+require_relative "instance_spec_service.rb"
+
 module DY
   describe Instance do
+    include_examples "instance_spec_service"
+
+    p "__dir__", __dir__
+    # p "self.KONST", self.KONST
+    # p "self.konst", self.konst
+
     use_letset(:let_a, :attrs)
     use_letset(:let_p, :pattrs)
     use_method_discovery :m
@@ -20,6 +28,17 @@ module DY
 
     describe "public methods" do
       subject { obj.send(m, *(defined?(args) ? args : [])) }
+
+      # TODO: Fin.
+      describe "#targets" do
+        # mock_conf
+
+        let(:of_conf_console_enabled) { true }
+
+        it do
+          p "subject", subject
+        end
+      end
 
       describe "#fn" do
         pending("TODO")
@@ -78,6 +97,7 @@ module DY
       end
 
       describe "#print_to_*" do
+        # OPTIMIZE: `mock_conf` does this.
         let(:args) { ["full_message"] }
         let(:conf) { double "conf" }
         let(:conf_console) { double "conf.console" }
@@ -90,7 +110,6 @@ module DY
           allow(conf).to receive(:console).and_return(conf_console)
           allow(conf).to receive(:log).and_return(conf_log)
           allow(conf).to receive(:rails).and_return(conf_rails)
-          # OPTIMIZE: Retro-fix siblings to use this form.
           allow(conf_console).to receive(:enabled).and_return(of_conf_console_enabled) if defined?(of_conf_console_enabled)
           allow(conf_log).to receive(:enabled).and_return(of_conf_log_enabled) if defined?(of_conf_log_enabled)
           allow(conf_rails).to receive(:enabled).and_return(of_conf_rails_enabled) if defined?(of_conf_rails_enabled)
