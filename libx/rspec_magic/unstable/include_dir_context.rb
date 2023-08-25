@@ -16,23 +16,22 @@ module RSpecMagic; module Unstable
     # OPTIMIZE: Retro-fix sibling features to use a dedicated module for exports.
     module Exports
       # TODO: Fin.
-      def idc_probe
-        p "hey, probe!"
-        p "Config.spec_path", Config.spec_path
-        # p "Config.root_path", Config.root_path
-        # p "RSpec.spec_root", RSpec.spec_root
-        # conf = RSpec.configure { |_| _ }
-        # p "conf.methods", conf.methods.sort
-        # p "conf.default_path", conf.default_path
-      end
+      # def idc_probe
+      #   p "hey, probe!"
+      #   p "Config.spec_path", Config.spec_path
+      #   # p "Config.root_path", Config.root_path
+      #   # p "RSpec.spec_root", RSpec.spec_root
+      #   # conf = RSpec.configure { |_| _ }
+      #   # p "conf.methods", conf.methods.sort
+      #   # p "conf.default_path", conf.default_path
+      # end
 
+      # @param [String] dir
       def include_dir_context(dir)
-        # TODO: Fin.
-        # Compute root based on this file location.
-        # spec_root = File.expand_path("../..", __dir__)
+        root = Config.spec_path
 
         d, steps = dir, []
-        while d.size >= spec_root.size
+        while d.start_with?(root)
           steps << d
           d = File.split(d).first
         end

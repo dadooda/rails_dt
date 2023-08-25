@@ -1,13 +1,7 @@
 
-require_relative "instance_spec_service.rb"
-
 module DY
   describe Instance do
-    include_examples "instance_spec_service"
-
-    p "__dir__", __dir__
-    # p "self.KONST", self.KONST
-    # p "self.konst", self.konst
+    include_dir_context __dir__
 
     use_letset(:let_a, :attrs)
     use_letset(:let_p, :pattrs)
@@ -31,11 +25,12 @@ module DY
 
       # TODO: Fin.
       describe "#targets" do
-        # mock_conf
+        mock_conf
 
         let(:of_conf_console_enabled) { true }
 
         it do
+          p "conf.console.enabled", conf.console.enabled
           p "subject", subject
         end
       end
