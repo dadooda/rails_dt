@@ -2,7 +2,7 @@
 
 "LODoc"
 
-module RSpecMagic
+module RSpecMagic; module Stable
   # Define methods to manage a set of custom +let+ variables which act as a distinct collection.
   #
   #   describe "…" do
@@ -108,12 +108,12 @@ module RSpecMagic
   defined?(RSpec) and RSpec.configure do |config|
     config.extend UseLetset
   end
-end
+end; end
 
 #
 # Implementation notes:
 #
-# * There was once an idea to support `use_cl2` in "collection only" mode. Say, `let_a` appends
+# * There was once an idea to support `use_letset` in "collection only" mode. Say, `let_a` appends
 #   to `attrs`, but doesn't publish a let variable. This change IS COMPLETELY NOT IN LINE with
 #   RSpec design. Let variables are methods and the collection is built by probing for those
 #   methods. "Collection only" would require a complete redesign. It's easier to implement another

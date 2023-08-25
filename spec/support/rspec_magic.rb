@@ -1,7 +1,7 @@
 
 require_relative "../../libx/rspec_magic"
-
-require_relative "../../libx/rspec_magic/unstable/include_dir_context"
+require_relative "../../libx/rspec_magic/stable"
+require_relative "../../libx/rspec_magic/unstable"
 
 # TODO: Fin.
 # module RSpecMagic::Unstable::IncludeDirContext::Config
@@ -10,4 +10,4 @@ require_relative "../../libx/rspec_magic/unstable/include_dir_context"
 #   end
 # end
 
-# RSpecMagic::World::Config.root_path = File.expand_path("..", __dir__)
+RSpecMagic::Config.spec_path = File.expand_path("..", __dir__)

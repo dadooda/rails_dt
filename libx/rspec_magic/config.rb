@@ -1,5 +1,9 @@
+# frozen_string_literal: true
 
-module RSpecMagic; module World
+"LODoc"
+
+module RSpecMagic
+  # Shared configuration.
   module Config
     class << self
       attr_writer :spec_path
@@ -10,4 +14,4 @@ module RSpecMagic; module World
       end
     end
   end
-end; end
+end

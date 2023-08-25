@@ -2,7 +2,7 @@
 
 "LODoc"
 
-require_relative "../world/config"
+require_relative "../config"
 
 module RSpecMagic; module Unstable
   # Include hierarchical contexts from <tt>spec/</tt> up to spec root.
@@ -13,20 +13,12 @@ module RSpecMagic; module Unstable
   #
   # OPTIMIZE: LODoc.
   module IncludeDirContext
-    # TODO: Fin.
-    # module Config
-    #   # @param [String]
-    #   def self.spec_root_path
-    #     raise NotImplementedError, "Please define #{self}##{__method__} in your RSpec setup"
-    #   end
-    # end
-
     # OPTIMIZE: Retro-fix sibling features to use a dedicated module for exports.
     module Exports
       # TODO: Fin.
       def idc_probe
         p "hey, probe!"
-        p "World::Config", World::Config
+        p "Config.spec_path", Config.spec_path
         # p "Config.root_path", Config.root_path
         # p "RSpec.spec_root", RSpec.spec_root
         # conf = RSpec.configure { |_| _ }

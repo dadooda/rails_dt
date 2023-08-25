@@ -2,7 +2,7 @@
 
 "LODoc"
 
-module RSpecMagic
+module RSpecMagic; module Stable
   # Create a self-descriptive "when …" context with one or more +let+ variables defined.
   #
   # = Usage
@@ -105,4 +105,4 @@ module RSpecMagic
   defined?(RSpec) and RSpec.configure do |config|
     config.extend ContextWhen
   end
-end
+end; end

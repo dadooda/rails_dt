@@ -2,7 +2,7 @@
 
 "LODoc"
 
-module RSpecMagic
+module RSpecMagic; module Stable
   # Provide an automatic <tt>let</tt> variable which contains a method name discovered from
   # its string representation.
   #
@@ -62,4 +62,4 @@ module RSpecMagic
   defined?(RSpec) and RSpec.configure do |config|
     config.extend UseMethodDiscovery
   end
-end
+end; end

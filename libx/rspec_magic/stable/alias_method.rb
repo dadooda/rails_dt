@@ -2,7 +2,7 @@
 
 "LODoc"
 
-module RSpecMagic
+module RSpecMagic; module Stable
   # Method alias matcher.
   # Originally from https://gist.github.com/1950961, but heavily reworked consistency-wise.
   #
@@ -24,4 +24,4 @@ module RSpecMagic
       "have #{new_name.inspect} aliased to #{old_name.inspect}"
     end
   end
-end
+end; end
