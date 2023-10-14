@@ -2,17 +2,15 @@
 # General Ruby, sorted by first letter.
 /.bundle/
 /coverage/
-/doc/*
+/doc/
 /vendor/bundle/
 /.yardoc/
 
 # TODO: CUP.
-/ldoc
+/ldoc/
 
 # Project-specific.
 /*.gem
-# TODO: Why is this?
-#/Gemfile.lock
 /log/
 
 # Bak/old/orig etc.

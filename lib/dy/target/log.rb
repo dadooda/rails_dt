@@ -21,9 +21,10 @@ module DY; module Target
     # OPTIMIZE: Document this consistently.
     # @return [Proc]
     def formatter
+      # TODO: Test this.
       igetset(__method__) do
         ->(severity, time, progname, msg) do
-          "#{time.strftime('%Y-%m-%d %H:%M:%S')} #{msg}\n"
+          "[#{time.strftime('%Y-%m-%d %H:%M:%S')}] #{msg}\n"
         end
       end
     end
