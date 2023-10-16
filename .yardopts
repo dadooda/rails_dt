@@ -1,5 +1,5 @@
 
-{lib}/**/*.rb
-
 --default-return void
 --hide-void-return
+
+{lib}/**/*.rb
