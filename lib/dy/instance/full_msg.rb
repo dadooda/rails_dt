@@ -4,7 +4,7 @@ require_relative "../instance"
 module DY; class Instance
   # A disposable self-formatting full message.
   class FullMsg
-    Feature::AttrMagic.load(self)
+    AttrMagic.load(self)
     Feature::Initialize.load(self)
 
     # The value we turn into an +%{msg}+ message token.

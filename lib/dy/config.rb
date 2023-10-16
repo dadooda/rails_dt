@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "../../libx/feature/attr_magic"
+require "attr_magic"
+
 require_relative "../../libx/feature/initialize"
 require_relative "config/console"
 require_relative "config/log"
@@ -9,7 +10,7 @@ require_relative "config/rails"
 module DY
   # The configuration object.
   class Config
-    Feature::AttrMagic.load(self)
+    AttrMagic.load(self)
     Feature::Initialize.load(self)
 
     attr_writer :console, :format, :loc_length

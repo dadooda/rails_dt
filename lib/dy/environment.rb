@@ -2,7 +2,7 @@
 
 require "pathname"
 
-require_relative "../../libx/feature/attr_magic"
+require "attr_magic"
 require_relative "../../libx/feature/initialize"
 
 "LODoc"
@@ -10,7 +10,7 @@ require_relative "../../libx/feature/initialize"
 module DY
   # The environment we run in. Most features are auto-discovered.
   class Environment
-    Feature::AttrMagic.load(self)
+    AttrMagic.load(self)
     Feature::Initialize.load(self)
 
     # A path to +Gemfile+, if present in <tt>env["BUNDLE_GEMFILE"]</tt>.

@@ -1,11 +1,11 @@
 
-# TODO: Finalize.
-#require_relative ""
-require File.expand_path("../lib/rails_dt/version", __FILE__)
+require_relative "lib/dy/version"
+
+# TODO: Dependencies! `attr_magic` and stuff.
 
 Gem::Specification.new do |s|
   s.name = "rails_dt"
-  s.version = RailsDt::VERSION
+  s.version = DY::VERSION
   s.authors = ["Alex Fortuna"]
   s.email = ["fortunadze@gmail.com"]
   s.homepage = "http://github.com/dadooda/rails_dt"

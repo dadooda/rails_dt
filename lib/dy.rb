@@ -1,6 +1,7 @@
 
 require_relative "dy/config"
 require_relative "dy/instance"
+require_relative "dy/version"
 
 # Alternative drop-in module with new functionality.
 #

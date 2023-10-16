@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../../libx/feature/attr_magic"
+require "attr_magic"
 require_relative "../../libx/feature/initialize"
 require_relative "config"
 require_relative "instance/full_msg"
@@ -12,7 +12,7 @@ module DY
   # Main class. Singleton module creates its instance under the hood and delegates
   # methods like {DY.p} and {DY.fn} to this instance.
   class Instance
-    Feature::AttrMagic.load(self)
+    AttrMagic.load(self)
     Feature::Initialize.load(self)
 
     # @return [Config]

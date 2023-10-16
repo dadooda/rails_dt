@@ -1,7 +1,16 @@
-PATH
-  remote: .
+GIT
+  remote: https://github.com/dadooda/attr_magic
+  revision: 2ea1f1964b60805ce8f691e0f4cfe479f87b6712
+  branch: 1016.moving
   specs:
-    rails_dt (1.2.0)
+    attr_magic (0.1.0)
+
+GIT
+  remote: https://github.com/dadooda/rspec_magic
+  revision: 76a4a067f2182e1cc926b58e893b843ae94606ff
+  branch: 1014.moving
+  specs:
+    rspec_magic (0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -35,9 +44,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  attr_magic!
   its
-  rails_dt!
   rspec
+  rspec_magic!
   simplecov
   yard
 

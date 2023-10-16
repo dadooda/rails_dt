@@ -1,9 +1,9 @@
 
-require_relative "../../../libx/feature/attr_magic"
+require "attr_magic"
 
 module DY; module Target
   class Base
-    Feature::AttrMagic.load(self)
+    AttrMagic.load(self)
     Feature::Initialize.load(self)
 
     # Print a full message.

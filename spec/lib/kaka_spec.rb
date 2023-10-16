@@ -2,10 +2,10 @@
 # TODO: CUP!
 
 module DT
-  describe "include_dir_context" do
-    idc_probe
-    # include_dir_context __dir__
-  end
+  #describe "include_dir_context" do
+  #  idc_probe
+  #  # include_dir_context __dir__
+  #end
 
   # xdescribe do
   #   let(:rails) { double "rails" }
