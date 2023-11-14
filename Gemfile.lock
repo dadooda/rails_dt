@@ -1,14 +1,14 @@
 GIT
   remote: https://github.com/dadooda/attr_magic
-  revision: 2ea1f1964b60805ce8f691e0f4cfe479f87b6712
-  branch: 1016.moving
+  revision: 8b790e72f40cdda618f782cfecf2416618ba85d5
+  branch: 202310.moving
   specs:
     attr_magic (0.1.0)
 
 GIT
   remote: https://github.com/dadooda/rspec_magic
-  revision: 76a4a067f2182e1cc926b58e893b843ae94606ff
-  branch: 1014.moving
+  revision: 842648ffef621540742149d39fe55b3f4d7221ec
+  branch: 202310.moving
   specs:
     rspec_magic (0.1.0)
 
@@ -24,6 +24,8 @@ GEM
       rspec-core (~> 3.12.0)
       rspec-expectations (~> 3.12.0)
       rspec-mocks (~> 3.12.0)
+    rspec-collection_matchers (1.2.1)
+      rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.3)
@@ -47,6 +49,7 @@ DEPENDENCIES
   attr_magic!
   its
   rspec
+  rspec-collection_matchers
   rspec_magic!
   simplecov
   yard

@@ -3,4 +3,4 @@
 --hide-void-return
 
 # TODO: Fin.
-{ldoc,lib,libx}/**/*.rb
+{ldoc,lib}/**/*.rb

@@ -2,16 +2,16 @@
 
 require "attr_magic"
 
-require_relative "../../libx/feature/initialize"
 require_relative "config/console"
 require_relative "config/log"
 require_relative "config/rails"
+require_relative "feature/initialize"
 
 module DY
   # The configuration object.
   class Config
     AttrMagic.load(self)
-    Feature::Initialize.load(self)
+    DY::Feature::Initialize.load(self)
 
     attr_writer :console, :format, :loc_length
 

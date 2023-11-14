@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
+require "attr_magic"
 require "pathname"
 
-require "attr_magic"
-require_relative "../../libx/feature/initialize"
-
-"LODoc"
+require_relative "feature/initialize"
 
 module DY
   # The environment we run in. Most features are auto-discovered.
   class Environment
     AttrMagic.load(self)
-    Feature::Initialize.load(self)
+    DY::Feature::Initialize.load(self)
 
     # A path to +Gemfile+, if present in <tt>env["BUNDLE_GEMFILE"]</tt>.
     # @return [String]

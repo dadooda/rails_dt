@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 require "attr_magic"
-require_relative "../../libx/feature/initialize"
+
 require_relative "config"
+require_relative "feature/initialize"
 require_relative "instance/full_msg"
 require_relative "instance/options/do_p"
 require_relative "instance/options/fn"
@@ -13,7 +14,7 @@ module DY
   # methods like {DY.p} and {DY.fn} to this instance.
   class Instance
     AttrMagic.load(self)
-    Feature::Initialize.load(self)
+    DY::Feature::Initialize.load(self)
 
     # @return [Config]
     attr_accessor :conf

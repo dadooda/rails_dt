@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.test_files = `git ls-files -- {test,spec,features}/*`.split("\n")
 
+  # OPTIMIZE: This should work on its own one day. Remove this when it does.
   s.add_dependency "attr_magic", "~> 0.1.0"
 
   s.add_development_dependency "rspec_magic", "~> 0.1.0"

@@ -4,7 +4,7 @@ require "attr_magic"
 module DY; module Target
   class Base
     AttrMagic.load(self)
-    Feature::Initialize.load(self)
+    DY::Feature::Initialize.load(self)
 
     # Print a full message.
     # @abstract

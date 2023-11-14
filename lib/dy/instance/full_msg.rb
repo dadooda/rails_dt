@@ -5,7 +5,7 @@ module DY; class Instance
   # A disposable self-formatting full message.
   class FullMsg
     AttrMagic.load(self)
-    Feature::Initialize.load(self)
+    DY::Feature::Initialize.load(self)
 
     # The value we turn into an +%{msg}+ message token.
     # @return [mixed]
