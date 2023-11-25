@@ -29,25 +29,28 @@ module DY
     # @return [Proc]
     def fn(options = {})
       o = Options::Fn.new(options)
-      o.mute and return(->(caller_line, args) {})
+      o.mute and return(-> (caller_line, args) {})
 
       vo = {}
       vo[:prefix] = o.prefix if o.prefix
 
-      ->(caller_line, args) do
+      # Return this lambda.
+      -> (caller_line, args) do
         do_p(caller_line, args, vo)
       end
     end
 
-    # Actually print.
+    # Actually print. Return the last argument.
     # @param [String] caller_line
     # @param [Array<mixed>] args Messages/values.
     # @param [Hash] options Attributes for an {Options::DoP}.
-    # @return [nil]
+    # @return [mixed]
     def do_p(caller_line, args, options = {})
-      o = Options::DoP.new(options)
-      args.each { |arg| do_p1(caller_line, arg, o) }
-      nil
+      # NOTE: We consider `#do_p1` a primitive, which thus takes a ready-made object.
+      oo = Options::DoP.new(options)
+      out = nil
+      args.each { |arg| out = do_p1(caller_line, arg, oo) }
+      out
     end
 
     # Return active targets.
@@ -66,10 +69,11 @@ module DY
     # A private attribute for well-balanced tests.
     attr_writer :envi, :t_console, :t_log, :t_rails
 
-    # Print a single message/value.
+    # Print a single message/value. Return +arg+.
     # @param [String] caller_line
     # @param [mixed] arg
     # @param [Options::DoP] o
+    # @return [mixed] arg
     def do_p1(caller_line, arg, o)
       require_attr :conf
 
@@ -85,6 +89,8 @@ module DY
       print_to_console(fullmsg)
       print_to_log(fullmsg)
       print_to_rails(fullmsg)
+
+      arg
     end
 
     # Print to the named target if one is enabled.

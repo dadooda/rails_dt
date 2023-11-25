@@ -3,8 +3,8 @@ module DY
   describe Instance do
     include_dir_context __dir__
 
-    use_letset(:let_a, :attrs)
-    use_letset(:let_p, :pattrs)
+    use_letset :let_a, :attrs
+    use_letset :let_p, :pattrs
     use_method_discovery :m
 
     let_a(:conf)
@@ -21,26 +21,43 @@ module DY
     end
 
     describe "public methods" do
-      subject { obj.send(m, *(defined?(args) ? args : [])) }
+      # OPTIMIZE: Retro-fix siblings to use `margs` special mnemo.
+      subject { obj.send(m, *(defined?(margs) ? margs : [])) }
 
-      # TODO: Fin.
-      describe "#targets" do
+      xdescribe "#targets" do
         mock_conf
 
         let(:of_conf_console_enabled) { true }
 
-        it do
-          p "conf.console.enabled", conf.console.enabled
-          p "subject", subject
-        end
+        # it do
+        #   p "conf.console.enabled", conf.console.enabled
+        #   p "subject", subject
+        # end
       end
 
-      describe "#fn" do
-        pending("TODO")
+      xdescribe "#fn" do
       end
 
       describe "#do_p" do
-        pending("TODO")
+        let(:margs) { [caller_line, args, options] }
+
+        let(:accu) { [] }
+        let(:args) { ["arg1", 5.5] }
+        let(:caller_line) { "cl" }
+        # OPTIMIZE: Consider using `looks_like` some time.
+        let(:oo) { "~<Options::DoP>" }
+        let(:options) { { kk: "mkk" } }
+
+        it do
+          expect(described_class::Options::DoP).to receive(:new).with(options).and_return(oo)
+          expect(obj).to receive(:do_p1).at_least(:once) do |*args|
+            accu << args
+            args[1]   # Simulate `#do_p1` return result here.
+          end
+
+          expect(subject).to eq 5.5
+          expect(accu).to eq [["cl", "arg1", "~<Options::DoP>"], ["cl", 5.5, "~<Options::DoP>"]]
+        end
       end
     end
 
@@ -86,7 +103,7 @@ module DY
             expect(obj).to receive(:print_to_log).with(of_fmf)
             expect(obj).to receive(:print_to_rails).with(of_fmf)
 
-            subject
+            expect(subject).to eq "some-arg"
           end
         end
       end
